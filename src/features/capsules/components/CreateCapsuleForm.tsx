@@ -96,6 +96,22 @@ export default function CreateCapsuleForm({
     }
   };
 
+  const handleCloseAttempt = () => {
+    const hasInput =
+      authorName.trim() !== "" ||
+      targetName.trim() !== "" ||
+      messageContent.trim() !== "" ||
+      unlockAt !== "";
+
+    if (hasInput) {
+      const confirmClose = window.confirm(
+        "Apakah Anda yakin ingin membatalkan? Harapan yang sudah ditulis akan hilang."
+      );
+      if (!confirmClose) return;
+    }
+    onClose();
+  };
+
   const isFormValid =
     targetName.trim().length >= 1 &&
     messageContent.trim().length >= 10 &&
@@ -173,10 +189,17 @@ export default function CreateCapsuleForm({
             <p className="text-rose-500 text-[10px] font-semibold animate-in fade-in duration-200">
               {errors.messageContent}
             </p>
+          ) : messageContent.length > 0 && messageContent.length < 10 ? (
+            <p className="text-rose-500 text-[10px] font-medium animate-in fade-in duration-200">
+              Minimal 10 karakter
+            </p>
           ) : (
             <div />
           )}
-          <span className="text-[10px] text-slate-400 font-mono">
+          <span className={cn(
+            "text-[10px] font-mono transition-colors",
+            messageContent.length > 0 && messageContent.length < 10 ? "text-rose-500 font-bold" : "text-slate-400"
+          )}>
             {messageContent.length}/1000
           </span>
         </div>
@@ -236,7 +259,7 @@ export default function CreateCapsuleForm({
   // Desktop Centered Modal
   if (isDesktop) {
     return (
-      <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <Dialog open={isOpen} onOpenChange={(open) => { if (!open) handleCloseAttempt(); }}>
         <DialogContent className="max-w-lg w-full rounded-3xl p-8 bg-white text-slate-900 border-none shadow-2xl relative" showCloseButton={true}>
           <DialogHeader className="mb-4">
             <div className="flex items-center gap-2">
@@ -246,7 +269,7 @@ export default function CreateCapsuleForm({
               </DialogTitle>
             </div>
           </DialogHeader>
-
+ 
           <form onSubmit={handleSubmit} className="space-y-4">
             {formFieldsContent}
           </form>
@@ -254,7 +277,7 @@ export default function CreateCapsuleForm({
       </Dialog>
     );
   }
-
+ 
   // Mobile Bottom Sheet
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
@@ -263,10 +286,10 @@ export default function CreateCapsuleForm({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={onClose}
+        onClick={handleCloseAttempt}
         className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
       />
-
+ 
       {/* Bottom Sheet Drawer */}
       <motion.div
         initial={{ y: "100%" }}
@@ -277,13 +300,13 @@ export default function CreateCapsuleForm({
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0, bottom: 0.8 }}
         onDragEnd={(e, info) => {
-          if (info.offset.y > 120) onClose();
+          if (info.offset.y > 120) handleCloseAttempt();
         }}
         className="relative w-full max-w-md bg-white rounded-t-[2.5rem] border-t border-slate-100 shadow-[0_-12px_40px_rgba(0,0,0,0.12)] p-6 pb-8 z-10 flex flex-col pointer-events-auto"
       >
         {/* Drag Handle */}
-        <div className="mx-auto w-12 h-1.5 bg-slate-200 rounded-full mb-6 cursor-pointer" onClick={onClose} />
-
+        <div className="mx-auto w-12 h-1.5 bg-slate-200 rounded-full mb-6 cursor-pointer" onClick={handleCloseAttempt} />
+ 
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
@@ -293,14 +316,14 @@ export default function CreateCapsuleForm({
             </h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleCloseAttempt}
             className="p-1.5 text-slate-400 hover:text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-full transition-all"
             aria-label="Tutup form"
           >
             <X className="size-4" />
           </button>
         </div>
-
+ 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 flex-1 overflow-y-auto max-h-[80vh] pb-24">
           {formFieldsContent}
