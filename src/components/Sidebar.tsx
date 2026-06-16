@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Compass, Settings, Plus, Heart, Lock, Unlock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { InstallPWAButton } from "./InstallPWAButton";
 
 interface SidebarProps {
   activeTab: "explore" | "settings";
@@ -38,7 +39,7 @@ export default function Sidebar({
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Image
-            src="/logo/apple-touch-icon.png"
+            src="/logo/favicon-32x32.png"
             alt="The Manifesting Capsule"
             width={32}
             height={32}
@@ -46,7 +47,7 @@ export default function Sidebar({
           />
           <div>
             <h1 className="text-base font-black tracking-tight text-slate-900 leading-none">
-              Manifest Capsule
+              The Manifesting Capsule
             </h1>
             <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5 block">
               Silent Sanctuary
@@ -62,6 +63,8 @@ export default function Sidebar({
           <Plus className="size-4 stroke-[3]" />
           <span>Drop Capsule</span>
         </button>
+
+        <InstallPWAButton />
 
         {/* Navigation Tabs */}
         <div className="space-y-1.5">
