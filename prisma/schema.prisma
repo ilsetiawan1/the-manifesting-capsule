@@ -22,6 +22,7 @@ model Manifest {
   accessKey      String   @map("access_key")
   targetName     String   @map("target_name")
   messageContent String   @map("message_content")
+  authorName     String?  @map("author_name")
   resonateCount  Int      @default(0) @map("resonate_count")
   unlockAt       DateTime @map("unlock_at")
   createdAt      DateTime @default(now()) @map("created_at")
