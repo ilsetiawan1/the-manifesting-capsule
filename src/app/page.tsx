@@ -172,9 +172,36 @@ export default function Home() {
               </div>
 
               {isLoading ? (
-                <div className="flex flex-col items-center justify-center py-20 text-slate-400">
-                  <div className="size-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
-                  <span className="text-xs font-medium">Memuat galeri kapsul...</span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 p-1">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        "h-56 min-h-[200px] bg-slate-100/80 border border-slate-200/40 rounded-[2rem] p-5 flex flex-col justify-between animate-pulse",
+                        i === 1 ? "col-span-2 sm:col-span-1" : "col-span-1"
+                      )}
+                    >
+                      {/* Top Header */}
+                      <div className="flex justify-between items-center">
+                        <div className="h-3.5 w-24 bg-slate-200 rounded-full" />
+                        <div className="size-6 bg-slate-200 rounded-full" />
+                      </div>
+                      {/* Middle Content */}
+                      <div className="space-y-3 my-3">
+                        <div className="h-3 w-16 bg-slate-200 rounded-full" />
+                        <div className="h-3.5 w-full bg-slate-200 rounded-lg" />
+                        <div className="h-3.5 w-4/5 bg-slate-200 rounded-lg" />
+                      </div>
+                      {/* Bottom Footer */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex-1 space-y-2">
+                          <div className="h-3.5 w-16 bg-slate-200 rounded-full" />
+                          <div className="h-1.5 w-full bg-slate-200 rounded-full" />
+                        </div>
+                        <div className="h-7 w-16 bg-slate-200 rounded-full" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <CapsuleList
