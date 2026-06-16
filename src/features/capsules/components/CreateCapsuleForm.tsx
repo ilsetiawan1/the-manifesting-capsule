@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Calendar, Lock, Sparkles } from "lucide-react";
+import { X, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import { createCapsuleAction } from "../actions";
 import { CreateCapsuleSchema } from "../schemas";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/lib/useMediaQuery";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface CreateCapsuleFormProps {
   isOpen: boolean;
@@ -25,6 +32,7 @@ export default function CreateCapsuleForm({
   const [unlockAt, setUnlockAt] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   if (!isOpen) return null;
 
@@ -93,6 +101,161 @@ export default function CreateCapsuleForm({
     messageContent.trim().length >= 10 &&
     unlockAt !== "";
 
+  const formFieldsContent = (
+    <>
+      {/* Author Name */}
+      <div>
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+          Nama Kamu (opsional)
+        </label>
+        <input
+          type="text"
+          value={authorName}
+          onChange={(e) => setAuthorName(e.target.value)}
+          placeholder="Anonim"
+          className={cn(
+            "w-full bg-slate-50 text-slate-900 placeholder:text-slate-400/80 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all",
+            errors.authorName
+              ? "border-rose-300 focus:ring-rose-500/20"
+              : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
+          )}
+        />
+        {errors.authorName && (
+          <p className="text-rose-500 text-[10px] font-semibold mt-1 animate-in fade-in duration-200">
+            {errors.authorName}
+          </p>
+        )}
+      </div>
+
+      {/* Target Name */}
+      <div>
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+          Nama Target
+        </label>
+        <input
+          type="text"
+          value={targetName}
+          onChange={(e) => setTargetName(e.target.value)}
+          placeholder="Untuk siapa manifestasi ini? (e.g. Diriku)"
+          className={cn(
+            "w-full bg-slate-50 text-slate-900 placeholder:text-slate-400/80 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all",
+            errors.targetName
+              ? "border-rose-300 focus:ring-rose-500/20"
+              : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
+          )}
+        />
+        {errors.targetName && (
+          <p className="text-rose-500 text-[10px] font-semibold mt-1 animate-in fade-in duration-200">
+            {errors.targetName}
+          </p>
+        )}
+      </div>
+
+      {/* Message Content */}
+      <div>
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+          Isi Manifestasimu
+        </label>
+        <textarea
+          value={messageContent}
+          onChange={(e) => setMessageContent(e.target.value)}
+          rows={4}
+          placeholder="Tulis mimpi, harapan, dan manifestasimu di sini..."
+          className={cn(
+            "w-full bg-slate-50 text-slate-900 placeholder:text-slate-400/80 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all resize-none",
+            errors.messageContent
+              ? "border-rose-300 focus:ring-rose-500/20"
+              : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
+          )}
+        />
+        <div className="flex items-center justify-between mt-1">
+          {errors.messageContent ? (
+            <p className="text-rose-500 text-[10px] font-semibold animate-in fade-in duration-200">
+              {errors.messageContent}
+            </p>
+          ) : (
+            <div />
+          )}
+          <span className="text-[10px] text-slate-400 font-mono">
+            {messageContent.length}/1000
+          </span>
+        </div>
+      </div>
+
+      {/* Unlock Date */}
+      <div>
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+          Gembok Sampai
+        </label>
+        <div className="relative">
+          <input
+            type="date"
+            value={unlockAt}
+            min={getTomorrowDateString()}
+            onChange={(e) => setUnlockAt(e.target.value)}
+            className={cn(
+              "w-full bg-slate-50 text-slate-900 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all",
+              errors.unlockAt
+                ? "border-rose-300 focus:ring-rose-500/20"
+                : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
+            )}
+          />
+        </div>
+        {errors.unlockAt && (
+          <p className="text-rose-500 text-[10px] font-semibold mt-1 animate-in fade-in duration-200">
+            {errors.unlockAt}
+          </p>
+        )}
+      </div>
+
+      {/* Submit Button */}
+      <div className="pt-2">
+        <button
+          type="submit"
+          disabled={!isFormValid || isLoading}
+          className={cn(
+            "w-full flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-bold shadow-md shadow-blue-500/10 active:scale-95 transition-all",
+            isFormValid && !isLoading
+              ? "bg-blue-900 text-white hover:bg-blue-800"
+              : "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
+          )}
+        >
+          {isLoading ? (
+            <span>Memproses...</span>
+          ) : (
+            <>
+              <Lock className="size-4" />
+              <span>Drop Capsule</span>
+            </>
+          )}
+        </button>
+      </div>
+    </>
+  );
+
+  // Desktop Centered Modal
+  if (isDesktop) {
+    return (
+      <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+        <DialogContent className="max-w-lg w-full rounded-3xl p-8 bg-white text-slate-900 border-none shadow-2xl relative" showCloseButton={true}>
+          <DialogHeader className="mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🌱</span>
+              <DialogTitle className="text-lg font-bold text-slate-900 tracking-tight">
+                Drop Your Capsule
+              </DialogTitle>
+            </div>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {formFieldsContent}
+          </form>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  // Mobile Bottom Sheet
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
       {/* Backdrop overlay */}
@@ -134,133 +297,7 @@ export default function CreateCapsuleForm({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 flex-1 overflow-y-auto max-h-[75vh]">
-          {/* Author Name */}
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Nama Kamu (opsional)
-            </label>
-            <input
-              type="text"
-              value={authorName}
-              onChange={(e) => setAuthorName(e.target.value)}
-              placeholder="Anonim"
-              className={cn(
-                "w-full bg-slate-50 text-slate-900 placeholder:text-slate-400/80 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all",
-                errors.authorName
-                  ? "border-rose-300 focus:ring-rose-500/20"
-                  : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
-              )}
-            />
-            {errors.authorName && (
-              <p className="text-rose-500 text-[10px] font-semibold mt-1 animate-in fade-in duration-200">
-                {errors.authorName}
-              </p>
-            )}
-          </div>
-
-          {/* Target Name */}
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Nama Target
-            </label>
-            <input
-              type="text"
-              value={targetName}
-              onChange={(e) => setTargetName(e.target.value)}
-              placeholder="Untuk siapa manifestasi ini? (e.g. Diriku)"
-              className={cn(
-                "w-full bg-slate-50 text-slate-900 placeholder:text-slate-400/80 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all",
-                errors.targetName
-                  ? "border-rose-300 focus:ring-rose-500/20"
-                  : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
-              )}
-            />
-            {errors.targetName && (
-              <p className="text-rose-500 text-[10px] font-semibold mt-1 animate-in fade-in duration-200">
-                {errors.targetName}
-              </p>
-            )}
-          </div>
-
-          {/* Message Content */}
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Isi Manifestasimu
-            </label>
-            <textarea
-              value={messageContent}
-              onChange={(e) => setMessageContent(e.target.value)}
-              rows={4}
-              placeholder="Tulis mimpi, harapan, dan manifestasimu di sini..."
-              className={cn(
-                "w-full bg-slate-50 text-slate-900 placeholder:text-slate-400/80 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all resize-none",
-                errors.messageContent
-                  ? "border-rose-300 focus:ring-rose-500/20"
-                  : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
-              )}
-            />
-            <div className="flex items-center justify-between mt-1">
-              {errors.messageContent ? (
-                <p className="text-rose-500 text-[10px] font-semibold animate-in fade-in duration-200">
-                  {errors.messageContent}
-                </p>
-              ) : (
-                <div />
-              )}
-              <span className="text-[10px] text-slate-400 font-mono">
-                {messageContent.length}/1000
-              </span>
-            </div>
-          </div>
-
-          {/* Unlock Date */}
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Gembok Sampai
-            </label>
-            <div className="relative">
-              <input
-                type="date"
-                value={unlockAt}
-                min={getTomorrowDateString()}
-                onChange={(e) => setUnlockAt(e.target.value)}
-                className={cn(
-                  "w-full bg-slate-50 text-slate-900 px-4 py-3 rounded-2xl text-sm border focus:outline-none focus:ring-2 transition-all",
-                  errors.unlockAt
-                    ? "border-rose-300 focus:ring-rose-500/20"
-                    : "border-slate-100 focus:border-slate-200 focus:ring-blue-500/20"
-                )}
-              />
-            </div>
-            {errors.unlockAt && (
-              <p className="text-rose-500 text-[10px] font-semibold mt-1 animate-in fade-in duration-200">
-                {errors.unlockAt}
-              </p>
-            )}
-          </div>
-
-          {/* Submit Button */}
-          <div className="pt-2">
-            <button
-              type="submit"
-              disabled={!isFormValid || isLoading}
-              className={cn(
-                "w-full flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-bold shadow-md shadow-blue-500/10 active:scale-95 transition-all",
-                isFormValid && !isLoading
-                  ? "bg-blue-900 text-white hover:bg-blue-800"
-                  : "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
-              )}
-            >
-              {isLoading ? (
-                <span>Memproses...</span>
-              ) : (
-                <>
-                  <Lock className="size-4" />
-                  <span>Drop Capsule</span>
-                </>
-              )}
-            </button>
-          </div>
+          {formFieldsContent}
         </form>
       </motion.div>
     </div>
