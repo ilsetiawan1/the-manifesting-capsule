@@ -6,6 +6,7 @@ export async function createCapsule(data: {
   targetName: string;
   messageContent: string;
   unlockAt: Date;
+  authorName?: string | null;
 }) {
   return prisma.manifest.create({
     data,
@@ -18,10 +19,11 @@ export async function getPublicCapsules() {
       id: true,
       accessKey: true,
       targetName: true,
+      authorName: true,
+      messageContent: true, // Diperlukan untuk menampilkan pesan kartu yang sudah terbuka di gallery
       resonateCount: true,
       unlockAt: true,
       createdAt: true,
-      // messageContent sengaja dihilangkan dari select publik demi keamanan
     },
     orderBy: {
       createdAt: "desc",
@@ -38,10 +40,11 @@ export async function getCapsulesByAccessKey(accessKey: string) {
       id: true,
       accessKey: true,
       targetName: true,
+      authorName: true,
+      messageContent: true, // Diperlukan untuk menampilkan pesan kartu yang sudah terbuka di history
       resonateCount: true,
       unlockAt: true,
       createdAt: true,
-      // messageContent sengaja dihilangkan demi keamanan data pemilik saat ditarik massal
     },
     orderBy: {
       createdAt: "desc",
@@ -61,6 +64,7 @@ export async function getUnlockedCapsuleContent(id: string) {
       id: true,
       accessKey: true,
       targetName: true,
+      authorName: true,
       messageContent: true, // Boleh diambil karena terbukti sudah unlock
       resonateCount: true,
       unlockAt: true,
@@ -78,6 +82,7 @@ export async function getCapsuleMetadataById(id: string) {
       id: true,
       accessKey: true,
       targetName: true,
+      authorName: true,
       resonateCount: true,
       unlockAt: true,
       createdAt: true,

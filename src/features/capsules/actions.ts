@@ -72,9 +72,10 @@ export async function createCapsuleAction(
     // 3. Simpan ke Database
     const capsule = await repository.createCapsule({
       accessKey: key,
-      targetName: input.targetName.trim(),
-      messageContent: input.messageContent.trim(),
-      unlockAt: new Date(input.unlockAt),
+      targetName: validation.data.targetName.trim(),
+      messageContent: validation.data.messageContent.trim(),
+      unlockAt: new Date(validation.data.unlockAt),
+      authorName: validation.data.authorName,
     });
 
     // 4. Return data yang sudah disanitasi
