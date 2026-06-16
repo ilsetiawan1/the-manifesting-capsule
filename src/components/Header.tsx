@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Search, X, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { Search, X } from "lucide-react";
 
 interface HeaderProps {
   searchQuery: string;
@@ -28,9 +29,13 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
       {!isSearchOpen ? (
         <>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-2xl shadow-sm">
-              <Sparkles className="size-5" />
-            </div>
+            <Image
+              src="/logo/favicon-32x32.png"
+              alt="The Manifesting Capsule"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
             <div>
               <h1 className="text-lg font-bold tracking-tight text-slate-900 leading-none">
                 Manifest Capsule

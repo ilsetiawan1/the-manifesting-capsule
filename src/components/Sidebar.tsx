@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Compass, Settings, Plus, Sparkles, Heart, Lock, Unlock } from "lucide-react";
+import Image from "next/image";
+import { Compass, Settings, Plus, Heart, Lock, Unlock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -36,9 +37,13 @@ export default function Sidebar({
       <div className="space-y-8">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="p-2.5 bg-blue-50 text-blue-600 rounded-[1.25rem] shadow-sm">
-            <Sparkles className="size-5" />
-          </div>
+          <Image
+            src="/logo/favicon-32x32.png"
+            alt="The Manifesting Capsule"
+            width={32}
+            height={32}
+            className="rounded-lg"
+          />
           <div>
             <h1 className="text-base font-black tracking-tight text-slate-900 leading-none">
               Manifest Capsule
