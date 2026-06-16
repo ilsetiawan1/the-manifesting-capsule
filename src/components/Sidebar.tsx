@@ -32,7 +32,7 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-72 h-screen sticky top-0 bg-white border-r border-slate-100 p-6 justify-between select-none">
+    <aside className="hidden lg:flex flex-col w-64 h-screen sticky top-0 bg-white border-r border-slate-100 p-6 justify-between select-none">
       <div className="space-y-8">
         {/* Logo */}
         <div className="flex items-center gap-2">

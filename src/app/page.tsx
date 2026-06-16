@@ -104,7 +104,7 @@ export default function Home() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 max-w-5xl lg:max-h-screen lg:overflow-y-auto pb-28 lg:pb-6">
+      <div className="flex-1 flex flex-col min-w-0 max-w-5xl mx-auto px-8 py-8 lg:max-h-screen lg:overflow-y-auto pb-28 lg:pb-8 bg-gradient-to-br from-slate-50 to-blue-50/30">
         {/* Header dengan Ghost Search */}
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
@@ -158,13 +158,13 @@ export default function Home() {
         )}
 
         {/* Dynamic Page Views */}
-        <main className="flex-1 px-6 py-4">
+        <main className="flex-1 mt-4">
           {activeTab === "explore" ? (
             /* Explore Feed View (Bento Grid) */
             <div className="space-y-4">
-              <div className="hidden lg:flex items-center justify-between mb-2">
+              <div className="hidden lg:flex items-center justify-between mb-6">
                 <h2 className="text-xl font-black tracking-tight text-slate-800">
-                  {activeSubTab === "global" ? "Global Manifest Gallery" : "My Capsule History"}
+                  {activeSubTab === "global" ? "Manifest Feed" : "My Capsule History"}
                 </h2>
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider font-mono">
                   Menampilkan {filteredCapsules.length} kapsul
