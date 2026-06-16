@@ -301,7 +301,18 @@ export default function CapsuleDetailModal({
               <div className={capsule.isLocked ? "text-slate-400" : "text-blue-200"}>
                 <span>Terbuka: </span>
                 <span className="font-semibold">
-                  {new Date(capsule.unlockAt).toLocaleDateString("id-ID")}
+                  {(() => {
+                    const d = new Date(capsule.unlockAt);
+                    return `${d.toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}, ${d.toLocaleTimeString("id-ID", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}`;
+                  })()}
                 </span>
               </div>
             </div>

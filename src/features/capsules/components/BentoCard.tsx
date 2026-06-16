@@ -65,11 +65,16 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
     }
   };
 
-  const formattedDate = new Date(capsule.unlockAt).toLocaleDateString("id-ID", {
+  const dateObj = new Date(capsule.unlockAt);
+  const formattedDate = `${dateObj.toLocaleDateString("id-ID", {
     day: "numeric",
     month: "short",
     year: "numeric",
-  });
+  })}, ${dateObj.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })}`;
 
   return (
     <div
