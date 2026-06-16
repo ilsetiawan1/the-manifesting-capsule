@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Manifesting Capsule | Silent Digital Sanctuary",
-  description: "A mobile-first anonymous time-locked capsule sanctuary. Write your dreams, hopes, and manifestations to be opened only when the lock time arrives.",
+  title: "The Manifesting Capsule",
+  description: "Kunci manifestasimu. Buka saat waktunya tiba.",
+  applicationName: "The Manifesting Capsule",
 };
 
 export default function RootLayout({
