@@ -251,3 +251,17 @@ export async function syncAccessKeyAction(
     };
   }
 }
+
+/**
+ * Keluar dari Akun Aktif (Menghapus Cookie Access Key)
+ */
+export async function logoutAction(): Promise<ServerActionResponse<void>> {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete("manifesting_access_key");
+    return { success: true };
+  } catch (err: any) {
+    console.error("Error in logoutAction:", err);
+    return { success: false, error: "Gagal keluar akun." };
+  }
+}
