@@ -28,9 +28,9 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
     <header className="sticky top-0 z-30 w-full bg-slate-50/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 flex items-center justify-between">
       {!isSearchOpen ? (
         <>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 lg:hidden">
             <Image
-              src="/logo/apple-touch-icon.png"
+              src="/logo/favicon-32x32.png"
               alt="The Manifesting Capsule"
               width={32}
               height={32}
@@ -38,7 +38,7 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
             />
             <div>
               <h1 className="text-lg font-bold tracking-tight text-slate-900 leading-none">
-                Manifest Capsule
+                The Manifesting Capsule
               </h1>
               <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-0.5">
                 Silent Sanctuary
@@ -47,7 +47,7 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
           </div>
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="p-2.5 text-slate-500 hover:bg-slate-100 rounded-full transition-all active:scale-95"
+            className="p-2.5 text-slate-500 hover:bg-slate-100 rounded-full transition-all active:scale-95 ml-auto"
             aria-label="Cari kapsul"
           >
             <Search className="size-5" />
