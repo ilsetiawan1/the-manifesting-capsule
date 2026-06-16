@@ -75,7 +75,7 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
     <div
       onClick={() => onCardClick(capsule)}
       className={cn(
-        "relative flex flex-col justify-between h-56 p-5 rounded-[2rem] cursor-pointer transition-all duration-300 select-none overflow-hidden group",
+        "relative flex flex-col justify-between h-56 min-h-[200px] p-5 rounded-[2rem] cursor-pointer transition-all duration-300 select-none overflow-hidden group",
         capsule.isLocked
           ? "bg-slate-100 hover:bg-slate-200/70 border border-slate-200/60 shadow-sm"
           : "bg-blue-900 text-white shadow-lg shadow-blue-950/10 hover:shadow-xl hover:shadow-blue-950/20"
@@ -114,7 +114,7 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
           <span
             className={cn(
               "text-[9px] font-medium italic",
-              capsule.isLocked ? "text-slate-400/80" : "text-blue-200/80"
+              capsule.isLocked ? "text-slate-400" : "text-blue-200"
             )}
           >
             ✍️ oleh {capsule.authorName || "Anonim"}

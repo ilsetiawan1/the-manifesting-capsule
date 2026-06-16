@@ -52,7 +52,7 @@ export default function CapsuleList({
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-1">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 p-1">
       {capsules.map((capsule, index) => {
         const positionInBatch = index % 4; // 0, 1, 2, 3
         const isFullWidthMobile = positionInBatch === 0 || positionInBatch === 3;
