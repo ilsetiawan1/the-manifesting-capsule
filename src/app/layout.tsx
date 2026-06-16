@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -25,6 +25,11 @@ export const metadata: Metadata = {
     apple: "/logo/apple-touch-icon.png",
     shortcut: "/logo/favicon.ico",
   },
+  manifest: "/manifest.json",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1E3A8A",
 };
 
 export default function RootLayout({
