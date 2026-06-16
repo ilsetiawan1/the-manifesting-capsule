@@ -30,7 +30,7 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
         <>
           <div className="flex items-center gap-2 lg:hidden">
             <Image
-              src="/logo/favicon-32x32.png"
+              src="/logo/logo.png"
               alt="The Manifesting Capsule"
               width={32}
               height={32}
