@@ -138,14 +138,14 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
       </div>
 
       {/* Bottom Section: Progress & Resonate */}
-      <div className="flex items-end justify-between w-full mt-2 z-10">
+      <div className="flex flex-row items-center justify-between gap-2 w-full mt-2 z-10">
         {/* Progress Bar & Status */}
-        <div className="flex-1 mr-4">
-          <div className="flex justify-between items-center mb-1 text-[10px]">
-            <span className={cn("font-mono font-medium", capsule.isLocked ? "text-slate-500" : "text-blue-200")}>
+        <div className="flex-1 min-w-0">
+          <div className="flex justify-between items-center mb-1 text-[9px] sm:text-[10px] tracking-tight">
+            <span className={cn("font-mono font-medium truncate", capsule.isLocked ? "text-slate-500" : "text-blue-200")}>
               {capsule.isLocked ? `⏳ ${capsule.daysLeft} hari lagi` : "✅ Awakened"}
             </span>
-            <span className={cn("font-mono font-semibold", capsule.isLocked ? "text-slate-600" : "text-blue-100")}>
+            <span className={cn("font-mono font-semibold shrink-0 ml-1", capsule.isLocked ? "text-slate-600" : "text-blue-100")}>
               {capsule.progressPercent}%
             </span>
           </div>
@@ -174,7 +174,7 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className={cn(
-            "flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all shadow-sm active:scale-95",
+            "flex items-center gap-1 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border text-[10px] sm:text-xs font-semibold transition-all shadow-sm active:scale-95 shrink-0",
             capsule.isLocked
               ? hasResonated
                 ? "bg-rose-50 text-rose-500 border-rose-200"
