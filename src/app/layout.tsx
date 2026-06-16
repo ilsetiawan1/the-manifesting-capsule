@@ -42,6 +42,21 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('darkMode') === 'true') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
         {children}
         <Toaster position="top-center" richColors />
