@@ -9,6 +9,7 @@ export type Manifest = {
   accessKey:      string;
   targetName:     string;
   messageContent: string;
+  authorName:     string | null;
   resonateCount:  number;
   unlockAt:       Date;
   createdAt:      Date;
@@ -23,6 +24,7 @@ export type ClientCapsule = {
   id:              string;
   targetName:      string;
   messageContent:  string | null; // null = masih terkunci
+  authorName:      string | null;
   resonateCount:   number;
   unlockAt:        Date;
   createdAt:       Date;
@@ -50,4 +52,5 @@ export type CreateCapsuleInput = {
   targetName:     string;
   messageContent: string;
   unlockAt:       Date;
+  authorName?:    string;
 };

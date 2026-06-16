@@ -18,6 +18,11 @@ export const CreateCapsuleSchema = z.object({
       minDate.setDate(minDate.getDate() + 1); // minimal +1 hari dari hari ini
       return date >= minDate;
     }, "Tanggal gembok minimal harus +1 hari dari hari ini"),
+  authorName: z
+    .string()
+    .max(30, "Nama pembuat maksimal 30 karakter")
+    .optional()
+    .transform((val) => (!val || val.trim() === "" ? "Anonim" : val)),
 });
 
 export const ResonateSchema = z.object({
