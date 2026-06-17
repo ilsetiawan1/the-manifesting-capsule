@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
-import Script from "next/script";
+import ThemeScript from "@/components/ThemeScript";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -54,23 +54,9 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
         />
+        <ThemeScript />
       </head>
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
-        <Script
-          id="theme-initializer"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.getItem('darkMode') === 'true') {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (_) {}
-            `,
-          }}
-        />
         {children}
         <Toaster position="top-center" richColors />
       </body>
