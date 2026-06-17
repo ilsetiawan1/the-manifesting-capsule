@@ -1,6 +1,4 @@
 // prisma/seed.ts
-// Jalankan dengan: pnpm prisma db seed
-
 import "dotenv/config";
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -15,104 +13,119 @@ const pool = new pg.Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
-// ──────────────────────────────────────────────────
-// Data tiruan: 8 kapsul manifestasi anonim
-// Campuran status: beberapa sudah Awakened, beberapa masih Locked
-// ──────────────────────────────────────────────────
 const seedData = [
   {
-    accessKey:      'DEMO-001-AAA',
-    targetName:     'Diriku di Masa Depan',
-    messageContent: 'Aku percaya bahwa di akhir tahun ini aku sudah lulus cum laude. Aku sudah bekerja keras tanpa henti dan hasilnya pasti sepadan. Kamu kuat, kamu mampu.',
-    resonateCount:  42,
-    unlockAt:       new Date(Date.now() - 1000 * 60 * 60 * 24 * 10), // Sudah terbuka 10 hari lalu
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 40), // Dibuat 40 hari lalu
-    authorName:     'Budi',
+    accessKey: 'DEMO-001-AAA',
+    authorName: 'Indra',
+    targetName: 'Diri Sendiri',
+    messageContent: 'Kamu berhasil. Kamu akhirnya bisa beristirahat dengan tenang. Tidak ada yang perlu dibuktikan lagi kepada siapa pun.',
+    ifAchieved: 'Rayakan dengan liburan ke tempat yang selama ini kamu impikan.',
+    ifNotAchieved: 'Evaluasi ulang, ambil napas, dan mulai lagi dengan strategi yang lebih baik.',
+    photoUrl: null,
+    resonateCount: 102,
+    unlockAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 40),
   },
   {
-    accessKey:      'DEMO-002-BBB',
-    targetName:     'Kamu',
-    messageContent: 'Kalau kamu baca ini, berarti kita berhasil melewati semua yang pernah kita takutkan. Terima kasih sudah tidak menyerah.',
-    resonateCount:  88,
-    unlockAt:       new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // Sudah terbuka 3 hari lalu
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 10), // Dibuat 10 hari lalu
-    authorName:     'Citra',
+    accessKey: 'DEMO-002-BBB',
+    authorName: 'Citra',
+    targetName: 'Kamu',
+    messageContent: 'Kalau kamu baca ini, berarti kita berhasil melewati semua yang pernah kita takutkan bersama.',
+    ifAchieved: 'Makan malam berdua di tempat pertama kali kita kenal.',
+    ifNotAchieved: 'Tetap berjalan bersama, karena prosesnya lebih penting dari hasilnya.',
+    photoUrl: null,
+    resonateCount: 88,
+    unlockAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 33),
   },
   {
-    accessKey:      'DEMO-003-CCC',
-    targetName:     'Versi Terbaik Saya',
-    messageContent: 'Di tanggal ini, aku sudah punya usaha sendiri yang menghasilkan cukup untuk keluarga. Tidak perlu besar, cukup — dan itu sudah luar biasa.',
-    resonateCount:  15,
-    unlockAt:       new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), // Sudah terbuka 30 hari lalu
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 60), // Dibuat 60 hari lalu
-    authorName:     'Dewi',
+    accessKey: 'DEMO-003-CCC',
+    authorName: 'Dewi',
+    targetName: 'Versi Terbaik Saya',
+    messageContent: 'Di tanggal ini, aku sudah punya usaha sendiri yang menghasilkan cukup untuk keluarga.',
+    ifAchieved: 'Traktir seluruh keluarga makan di restoran pilihan mereka.',
+    ifNotAchieved: 'Tidak apa-apa. Aku akan tetap berjalan, satu langkah lebih kecil pun tetap maju.',
+    photoUrl: null,
+    resonateCount: 15,
+    unlockAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 60),
   },
   {
-    accessKey:      'DEMO-004-DDD',
-    targetName:     'Sahabatku',
-    messageContent: '[LOCKED CONTENT]', // Akan otomatis ter-censor di UI
-    resonateCount:  7,
-    unlockAt:       new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // Masih terkunci 30 hari lagi
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 10), // Dibuat 10 hari lalu (progress: 10 / 40 = 25%)
-    authorName:     'Eko',
+    accessKey: 'DEMO-004-DDD',
+    authorName: 'Eko',
+    targetName: 'Sahabatku',
+    messageContent: 'Aku berharap di saat kamu baca ini, kamu sudah menemukan ketenangan yang selama ini kamu cari.',
+    ifAchieved: null,
+    ifNotAchieved: null,
+    photoUrl: null,
+    resonateCount: 7,
+    unlockAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5),
   },
   {
-    accessKey:      'DEMO-005-EEE',
-    targetName:     'Ibuku',
-    messageContent: '[LOCKED CONTENT]',
-    resonateCount:  23,
-    unlockAt:       new Date(Date.now() + 1000 * 60 * 60 * 24 * 90), // Masih terkunci 90 hari lagi
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), // Dibuat 30 hari lalu (progress: 30 / 120 = 25%)
-    authorName:     'Fajar',
+    accessKey: 'DEMO-005-EEE',
+    authorName: 'Fajar',
+    targetName: 'Ibuku',
+    messageContent: 'Ibu, terima kasih sudah sabar menunggu anakmu ini berkembang pelan-pelan.',
+    ifAchieved: null,
+    ifNotAchieved: null,
+    photoUrl: null,
+    resonateCount: 23,
+    unlockAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 90),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10),
   },
   {
-    accessKey:      'DEMO-006-FFF',
-    targetName:     'Mimpi Karir',
-    messageContent: '[LOCKED CONTENT]',
-    resonateCount:  3,
-    unlockAt:       new Date(Date.now() + 1000 * 60 * 60 * 24 * 180), // Masih terkunci 180 hari lagi
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 60), // Dibuat 60 hari lalu (progress: 60 / 240 = 25%)
-    authorName:     'Gita',
+    accessKey: 'DEMO-006-GGG',
+    authorName: 'Gita',
+    targetName: 'Mimpi Karir',
+    messageContent: 'Aku percaya posisi yang aku impikan itu nyata dan layak untuk aku perjuangkan.',
+    ifAchieved: 'Beli kamera mirrorless yang sudah lama aku incar.',
+    ifNotAchieved: 'Ambil kursus baru dan perluas jaringan profesional.',
+    photoUrl: null,
+    resonateCount: 3,
+    unlockAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 180),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
   },
   {
-    accessKey:      'DEMO-007-GGG',
-    targetName:     'Si Dia',
-    messageContent: '[LOCKED CONTENT]',
-    resonateCount:  56,
-    unlockAt:       new Date(Date.now() + 1000 * 60 * 60 * 24 * 14), // Masih terkunci 14 hari lagi
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 14), // Dibuat 14 hari lalu (progress: 14 / 28 = 50%)
-    authorName:     'Hendra',
+    accessKey: 'DEMO-007-HHH',
+    authorName: 'Hendra',
+    targetName: 'Si Dia',
+    messageContent: 'Semoga saat kamu baca ini, kamu sudah tahu betapa berharganya dirimu.',
+    ifAchieved: null,
+    ifNotAchieved: null,
+    photoUrl: null,
+    resonateCount: 56,
+    unlockAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
   },
   {
-    accessKey:      'DEMO-008-HHH',
-    targetName:     'Diri Sendiri',
-    messageContent: 'Kamu berhasil. Kamu akhirnya bisa beristirahat dengan tenang. Tidak ada yang perlu dibuktikan lagi.',
-    resonateCount:  101,
-    unlockAt:       new Date(Date.now() - 1000 * 60 * 60 * 24 * 1), // Baru terbuka kemarin
-    createdAt:      new Date(Date.now() - 1000 * 60 * 60 * 24 * 5), // Dibuat 5 hari lalu
-    authorName:     'Indra',
+    accessKey: 'DEMO-008-III',
+    authorName: 'Mie Ayam',
+    targetName: 'Bakso',
+    messageContent: 'Kita sudah melewati semua badai bersama. Ini saatnya menikmati hasilnya.',
+    ifAchieved: 'Liburan berdua ke Bali.',
+    ifNotAchieved: 'Kita evaluasi bersama dan coba lagi dengan cara yang berbeda.',
+    photoUrl: null,
+    resonateCount: 0,
+    unlockAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 15),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 20),
   },
 ];
 
 async function main() {
-  console.log('🌱 Memulai proses seeder...\n');
-
-  // Bersihkan data lama sebelum seed ulang (development only)
+  console.log('🌱 Menghapus data seed lama...');
   await prisma.manifest.deleteMany({
-    where: {
-      accessKey: {
-        startsWith: 'DEMO-', // Hanya hapus data seeder, bukan data real
-      },
-    },
+    where: { accessKey: { startsWith: 'DEMO-' } },
   });
 
+  console.log('🌱 Menanam data seed baru...\n');
   for (const item of seedData) {
     const capsule = await prisma.manifest.create({ data: item });
-    const status  = new Date() >= new Date(capsule.unlockAt) ? '✅ Awakened' : '🔒 Locked';
-    console.log(`  ${status}  [${capsule.accessKey}] "${capsule.targetName}"`);
+    const status = new Date() >= new Date(capsule.unlockAt) ? '✅ Awakened' : '🔒 Locked  ';
+    console.log(`  ${status}  [${capsule.accessKey}] UNTUK: "${capsule.targetName}" oleh ${capsule.authorName}`);
   }
 
-  console.log(`\n✨ Seeder selesai! ${seedData.length} kapsul berhasil ditanam.`);
+  console.log(`\n✨ Selesai! ${seedData.length} kapsul berhasil ditanam.`);
 }
 
 main()
