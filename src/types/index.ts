@@ -16,6 +16,8 @@ export type Manifest = {
   photoUrl?:      string | null;
   ifNotAchieved?: string | null;
   ifAchieved?:    string | null;
+  isPrivate:      boolean;
+  isAnonymousTarget: boolean;
 };
 
 // ──────────────────────────────────────────────────
@@ -23,6 +25,7 @@ export type Manifest = {
 // messageContent bisa null jika kapsul masih Locked
 // (digunakan di services.ts dan components)
 // ──────────────────────────────────────────────────
+// Note: We also require isPrivate and isAnonymousTarget here.
 export type ClientCapsule = {
   id:              string;
   accessKey?:      string;
@@ -39,6 +42,8 @@ export type ClientCapsule = {
   photoUrl?:       string | null;
   ifNotAchieved?:  string | null;
   ifAchieved?:     string | null;
+  isPrivate:       boolean;
+  isAnonymousTarget: boolean;
 };
 
 // ──────────────────────────────────────────────────
