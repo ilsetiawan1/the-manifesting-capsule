@@ -116,13 +116,13 @@ export default function Home() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 max-w-5xl mx-auto px-8 py-8 lg:max-h-screen lg:overflow-y-auto pb-28 lg:pb-8 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-slate-950/20">
+      <div className="flex-1 flex flex-col min-w-0 max-w-5xl mx-auto px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8 lg:max-h-screen lg:overflow-y-auto pb-28 lg:pb-8 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-slate-950/20">
         {/* Header dengan Ghost Search */}
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
         {/* Tab Explore Sub-Bar (Mobile & Tablet only) */}
         {activeTab !== "settings" && (
-          <div className="flex flex-col gap-3 px-6 py-3 lg:hidden">
+          <div className="flex flex-col gap-3 px-2 py-3 sm:px-4 lg:hidden">
             {/* Sub-tab Switcher */}
             <div className="grid grid-cols-2 p-1 bg-slate-100/80 dark:bg-slate-800 rounded-2xl border border-slate-200/10 dark:border-slate-700/50">
               <button

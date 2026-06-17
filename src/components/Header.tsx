@@ -25,7 +25,7 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 px-6 py-4 flex items-center justify-between transition-colors duration-200">
+    <header className="sticky top-0 z-30 w-full rounded-full bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 px-6 py-4 flex items-center justify-between transition-colors duration-200">
       {!isSearchOpen ? (
         <>
           <div className="flex items-center gap-2 lg:hidden">
@@ -37,7 +37,7 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
               className="rounded-lg"
             />
             <div>
-              <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+              <h1 className="text-xs md:text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none">
                 The Manifesting Capsule
               </h1>
               <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-0.5">

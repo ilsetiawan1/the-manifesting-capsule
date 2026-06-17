@@ -347,7 +347,7 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
           ) : (
             <button 
               onClick={() => setShowAddInput(true)} 
-              className="w-full text-center py-3.5 text-xs text-blue-600 dark:text-blue-400 hover:bg-slate-50/50 dark:hover:bg-slate-950/20 font-semibold transition-all border-t border-slate-100/60 dark:border-slate-800/60"
+              className="w-full text-center py-3.5 text-xs  text-blue-600 dark:text-blue-400 hover:bg-slate-50/50 dark:hover:bg-slate-950/20 font-semibold transition-all border-t border-slate-100/60 dark:border-slate-800/60"
             >
               + {language === "ID" ? "Hubungkan Akun / Access Key Lain" : "Connect Another Account / Access Key"}
             </button>
@@ -398,14 +398,14 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
                 <Globe className="size-4" />
               </div>
               <span className="text-sm font-semibold">
-                {language === "ID" ? "Bahasa Aplikasi" : "App Language"}
+                {language === "ID" ? "Bahasa" : "Language"}
               </span>
             </div>
             
             <select
               value={language}
               onChange={(e) => handleLanguageChange(e.target.value)}
-              className="bg-transparent text-sm font-bold text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer pr-1"
             >
               <option value="ID">Bahasa Indonesia</option>
               <option value="EN">English</option>
