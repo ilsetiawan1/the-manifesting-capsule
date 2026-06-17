@@ -36,6 +36,8 @@ export default function CreateCapsuleForm({
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [ifNotAchieved, setIfNotAchieved] = useState("");
   const [ifAchieved, setIfAchieved] = useState("");
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [isAnonymousTarget, setIsAnonymousTarget] = useState(true);
   
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -79,6 +81,8 @@ export default function CreateCapsuleForm({
     setPhotoPreview(null);
     setIfNotAchieved("");
     setIfAchieved("");
+    setIsPrivate(false);
+    setIsAnonymousTarget(true);
     setStep(1);
     onClose();
   };
@@ -95,6 +99,8 @@ export default function CreateCapsuleForm({
       authorName,
       ifNotAchieved: ifNotAchieved || null,
       ifAchieved: ifAchieved || null,
+      isPrivate,
+      isAnonymousTarget,
     };
 
     // Validasi client-side menggunakan Zod
@@ -122,6 +128,8 @@ export default function CreateCapsuleForm({
       if (photoFile) formData.append("photo", photoFile);
       if (validation.data.ifNotAchieved) formData.append("ifNotAchieved", validation.data.ifNotAchieved);
       if (validation.data.ifAchieved) formData.append("ifAchieved", validation.data.ifAchieved);
+      formData.append("isPrivate", String(validation.data.isPrivate));
+      formData.append("isAnonymousTarget", String(validation.data.isAnonymousTarget));
 
       const res = await createCapsuleAction(formData);
 
@@ -140,6 +148,8 @@ export default function CreateCapsuleForm({
         setPhotoFile(null);
         setIfNotAchieved("");
         setIfAchieved("");
+        setIsPrivate(false);
+        setIsAnonymousTarget(true);
         setStep(1);
         onSuccess(res.data?.accessKey);
         onClose();
@@ -335,6 +345,71 @@ export default function CreateCapsuleForm({
               placeholder="Apa yang ingin kamu rayakan jika impian ini berhasil?"
               className="w-full bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400/80 dark:placeholder:text-slate-500 px-4 py-3 rounded-2xl text-base lg:text-sm border border-slate-100 dark:border-slate-700 focus:border-slate-200 dark:focus:border-slate-600 focus:ring-2 focus:ring-blue-500/20 focus:outline-none resize-none transition-all"
             />
+          </div>
+
+          {/* Privacy & Visibility Settings */}
+          <div className="space-y-4 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/40 border border-slate-100/10 dark:border-slate-800/50">
+            {/* Visibilitas Kapsul */}
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                Sifat Kapsul
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsPrivate(false)}
+                  className={cn(
+                    "py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer",
+                    !isPrivate
+                      ? "bg-white dark:bg-slate-800 border-[#D4AF37] text-[#D4AF37] shadow-sm"
+                      : "bg-transparent border-slate-200 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:bg-slate-100/40 dark:hover:bg-slate-800/30"
+                  )}
+                >
+                  <span className="size-1.5 rounded-full bg-emerald-500" />
+                  Public (Explore)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsPrivate(true)}
+                  className={cn(
+                    "py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer",
+                    isPrivate
+                      ? "bg-white dark:bg-slate-800 border-[#D4AF37] text-[#D4AF37] shadow-sm"
+                      : "bg-transparent border-slate-200 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:bg-slate-100/40 dark:hover:bg-slate-800/30"
+                  )}
+                >
+                  <span className="size-1.5 rounded-full bg-amber-500" />
+                  Private (Rahasia)
+                </button>
+              </div>
+            </div>
+
+            {/* Samarkan Penerima */}
+            <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/50">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Samarkan Penerima
+                </label>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Tampilkan nama target sebagai "Anonim" di feed publik
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsAnonymousTarget(!isAnonymousTarget)}
+                className={cn(
+                  "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                  isAnonymousTarget ? "bg-[#D4AF37]" : "bg-slate-200 dark:bg-slate-700"
+                )}
+              >
+                <span
+                  className={cn(
+                    "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                    isAnonymousTarget ? "translate-x-5" : "translate-x-0"
+                  )}
+                />
+              </button>
+            </div>
           </div>
 
           {/* Button Row */}
