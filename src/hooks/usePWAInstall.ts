@@ -47,5 +47,8 @@ export function usePWAInstall() {
     setShowInstallButton(false);
   };
 
-  return { showInstallButton, handleInstallClick };
+  const isLocalhost = typeof window !== "undefined" && window.location.hostname === "localhost";
+  const finalShowButton = showInstallButton || isLocalhost;
+
+  return { showInstallButton: finalShowButton, handleInstallClick };
 }
