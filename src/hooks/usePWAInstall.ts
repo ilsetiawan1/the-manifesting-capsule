@@ -5,12 +5,20 @@ import { useState, useEffect } from "react";
 export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
+  const [isAlreadyInstalled, setIsAlreadyInstalled] = useState(false);
 
   useEffect(() => {
-    // 1. Check if PWA is already running in standalone mode
     if (typeof window !== "undefined") {
+      // Check if currently running in PWA standalone mode
       const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
+      
+      // Check if previously flagged as installed
+      const wasInstalled = localStorage.getItem("the_manifest_capsule_installed") === "true";
+      setIsAlreadyInstalled(wasInstalled);
+
       if (isStandalone) {
+        localStorage.setItem("the_manifest_capsule_installed", "true");
+        setIsAlreadyInstalled(true);
         setShowInstallButton(false);
         return;
       }
@@ -26,6 +34,8 @@ export function usePWAInstall() {
     };
 
     const handleAppInstalled = () => {
+      localStorage.setItem("the_manifest_capsule_installed", "true");
+      setIsAlreadyInstalled(true);
       setDeferredPrompt(null);
       setShowInstallButton(false);
     };
@@ -43,6 +53,10 @@ export function usePWAInstall() {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      localStorage.setItem("the_manifest_capsule_installed", "true");
+      setIsAlreadyInstalled(true);
+    }
     setDeferredPrompt(null);
     setShowInstallButton(false);
   };
@@ -50,5 +64,5 @@ export function usePWAInstall() {
   const isLocalhost = typeof window !== "undefined" && window.location.hostname === "localhost";
   const finalShowButton = showInstallButton || isLocalhost;
 
-  return { showInstallButton: finalShowButton, handleInstallClick };
+  return { showInstallButton: finalShowButton, isAlreadyInstalled, handleInstallClick };
 }

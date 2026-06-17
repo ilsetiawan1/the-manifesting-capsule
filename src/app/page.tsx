@@ -17,7 +17,7 @@ import { Download } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 export default function Home() {
-  const { showInstallButton, handleInstallClick } = usePWAInstall();
+  const { showInstallButton, isAlreadyInstalled, handleInstallClick } = usePWAInstall();
   const [activeTab, setActiveTab] = useState<"explore" | "history" | "settings">("history");
   const [vibeFilter, setVibeFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -116,7 +116,7 @@ export default function Home() {
         vibeFilter={vibeFilter}
         setVibeFilter={setVibeFilter}
         stats={stats}
-        showInstallButton={showInstallButton}
+        showInstallButton={showInstallButton && !isAlreadyInstalled}
         handleInstallClick={handleInstallClick}
       />
 
@@ -126,18 +126,24 @@ export default function Home() {
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
         {/* Mobile PWA Install Banner */}
-        {showInstallButton && (
+        {(showInstallButton || isAlreadyInstalled) && (
           <div className="lg:hidden mt-3 mx-2 p-3 rounded-2xl bg-[#F3E5AB]/30 border border-[#F3E5AB]/60 flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
             <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-              <Download className="size-4 text-[#D4AF37]" />
-              <span className="text-[11px] font-medium leading-tight">Unduh aplikasi untuk akses lebih cepat & offline!</span>
+              <Download className="size-4 text-[#D4AF37] shrink-0" />
+              <span className="text-[11px] font-medium leading-tight">
+                {isAlreadyInstalled
+                  ? "Aplikasi sudah terpasang. Buka dari Layar Utama Anda untuk pengalaman terbaik!"
+                  : "Unduh aplikasi untuk akses lebih cepat & offline!"}
+              </span>
             </div>
-            <button
-              onClick={handleInstallClick}
-              className="px-3.5 py-1.5 bg-[#D4AF37] hover:bg-[#C8A96B] text-white text-xs font-bold rounded-xl transition-all active:scale-95 flex items-center gap-1.5 shadow-sm shrink-0"
-            >
-              Unduh
-            </button>
+            {!isAlreadyInstalled && (
+              <button
+                onClick={handleInstallClick}
+                className="px-3.5 py-1.5 bg-[#D4AF37] hover:bg-[#C8A96B] text-white text-xs font-bold rounded-xl transition-all active:scale-95 flex items-center gap-1.5 shadow-sm shrink-0"
+              >
+                Unduh
+              </button>
+            )}
           </div>
         )}
 
