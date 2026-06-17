@@ -55,10 +55,12 @@ export function getVibeCategory(targetName: string, messageContent?: string | nu
 }
 
 export function sanitizeCapsuleForClient(
-  capsule: Omit<Manifest, "messageContent"> & {
+  capsule: Omit<Manifest, "messageContent" | "isPrivate" | "isAnonymousTarget"> & {
     messageContent?: string | null;
     ifNotAchieved?: string | null;
     ifAchieved?: string | null;
+    isPrivate?: boolean;
+    isAnonymousTarget?: boolean;
   }
 ): ClientCapsule {
   const now = new Date();
@@ -90,6 +92,8 @@ export function sanitizeCapsuleForClient(
     messageContent: isLocked ? null : (capsule.messageContent ?? null), // Double protection
     ifNotAchieved: isLocked ? null : (capsule.ifNotAchieved ?? null),
     ifAchieved: isLocked ? null : (capsule.ifAchieved ?? null),
+    isPrivate: capsule.isPrivate ?? false,
+    isAnonymousTarget: capsule.isAnonymousTarget ?? true,
     isLocked,
     progressPercent,
     daysLeft,
