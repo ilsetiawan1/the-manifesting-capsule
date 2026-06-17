@@ -18,6 +18,8 @@ model Manifest {
   photoUrl       String?  @map("photo_url")
   ifAchieved     String?  @map("if_achieved")
   ifNotAchieved  String?  @map("if_not_achieved")
+  isPrivate      Boolean  @default(false) @map("is_private")
+  isAnonymousTarget Boolean @default(true) @map("is_anonymous_target")
 
   @@index([accessKey])
   @@map("manifests")
