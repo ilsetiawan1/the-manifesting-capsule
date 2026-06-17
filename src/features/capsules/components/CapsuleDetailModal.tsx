@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Lock, Unlock, Heart, Check, Share2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { X, Lock, Unlock, Heart, Check, Share2, User, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ClientCapsule } from "@/types";
 import { getUnlockedCapsuleContentAction, resonateAction } from "../actions";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import ShareModal from "./ShareModal";
 
 interface CapsuleDetailModalProps {
   initialCapsule: ClientCapsule;
@@ -26,6 +27,7 @@ export default function CapsuleDetailModal({
   const [resonateCount, setResonateCount] = useState(initialCapsule.resonateCount);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
@@ -238,22 +240,24 @@ export default function CapsuleDetailModal({
                 </div>
               )}
 
-              {/* Target & Lock Status */}
-              <div>
-                <span
-                  className={cn(
-                    "text-[10px] font-semibold tracking-wider uppercase block mb-1",
-                    capsule.isLocked ? "text-slate-400" : "text-blue-200"
-                  )}
-                >
-                  KAPSUL MANIFESTASI
-                </span>
-                <h2 className="text-lg font-black tracking-tight leading-tight capitalize flex items-center justify-between gap-4">
-                  <span>Untuk: {capsule.targetName}</span>
-                  <span className={cn("text-xs font-semibold italic normal-case", capsule.isLocked ? "text-slate-500" : "text-blue-200")}>
-                    ✍️ oleh {capsule.authorName || "Anonim"}
-                  </span>
-                </h2>
+              {/* Target & Sender/Receiver Info Row */}
+              <div className={cn(
+                "flex flex-row items-center justify-between w-full border-b pb-3 mb-4 text-xs sm:text-sm font-medium",
+                capsule.isLocked 
+                  ? "border-slate-100 text-slate-500 dark:text-slate-400" 
+                  : "border-blue-800/40 text-blue-200"
+              )}>
+                {/* Sisi Kiri: Pengirim */}
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <User className="size-3.5 shrink-0" />
+                  <span className="truncate">Dari: <span className="font-semibold">{capsule.authorName || "Anonim"}</span></span>
+                </div>
+
+                {/* Sisi Kanan: Penerima */}
+                <div className="flex items-center gap-1.5 min-w-0 text-right justify-end">
+                  <span className="truncate">Untuk: <span className="font-semibold">{capsule.targetName}</span></span>
+                  <ArrowRight className="size-3.5 shrink-0" />
+                </div>
               </div>
 
               {/* Content Body / Countdown */}
@@ -393,8 +397,8 @@ export default function CapsuleDetailModal({
                   <span>Resonate ({resonateCount})</span>
                 </button>
 
-                <button
-                  onClick={handleCopyLink}
+                 <button
+                  onClick={() => setIsShareOpen(true)}
                   className={cn(
                     "p-3 rounded-2xl border transition-all active:scale-95 flex items-center justify-center",
                     capsule.isLocked
@@ -402,7 +406,7 @@ export default function CapsuleDetailModal({
                       : "bg-blue-800 text-blue-200 border-blue-700/30 hover:text-white"
                   )}
                 >
-                  {copiedLink ? <Check className="size-4 text-green-500" /> : <Share2 className="size-4" />}
+                  <Share2 className="size-4" />
                 </button>
               </div>
             </div>
@@ -493,16 +497,26 @@ export default function CapsuleDetailModal({
                 </button>
 
                 <button
-                  onClick={handleCopyLink}
+                  onClick={() => setIsShareOpen(true)}
                   className="p-3 rounded-2xl border border-slate-800 bg-slate-900 text-slate-400 hover:text-white transition-all active:scale-95 flex items-center justify-center"
                 >
-                  {copiedLink ? <Check className="size-4 text-green-500" /> : <Share2 className="size-4" />}
+                  <Share2 className="size-4" />
                 </button>
               </div>
             </div>
           </motion.div>
         )}
       </motion.div>
+
+      {/* Share Modal */}
+      <AnimatePresence>
+        {isShareOpen && (
+          <ShareModal
+            capsule={capsule}
+            onClose={() => setIsShareOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
