@@ -2,9 +2,15 @@
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-export function PhotoUploader({ onPhotoSelected }: { onPhotoSelected: (file: File | null) => void }) {
-  const [preview, setPreview] = useState<string | null>(null);
-
+export function PhotoUploader({
+  photoFile,
+  preview,
+  onPhotoSelected,
+}: {
+  photoFile: File | null;
+  preview: string | null;
+  onPhotoSelected: (file: File | null, previewUrl: string | null) => void;
+}) {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (!file) return;
@@ -18,8 +24,7 @@ export function PhotoUploader({ onPhotoSelected }: { onPhotoSelected: (file: Fil
     });
 
     const previewUrl = URL.createObjectURL(compressed);
-    setPreview(previewUrl);
-    onPhotoSelected(compressed as File);
+    onPhotoSelected(compressed as File, previewUrl);
   }, [onPhotoSelected]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -42,8 +47,7 @@ export function PhotoUploader({ onPhotoSelected }: { onPhotoSelected: (file: Fil
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              setPreview(null);
-              onPhotoSelected(null);
+              onPhotoSelected(null, null);
             }}
             className="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white text-xs px-2.5 py-1 rounded-lg backdrop-blur-sm transition-all"
           >

@@ -33,6 +33,7 @@ export default function CreateCapsuleForm({
   const [messageContent, setMessageContent] = useState("");
   const [unlockAt, setUnlockAt] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [ifNotAchieved, setIfNotAchieved] = useState("");
   const [ifAchieved, setIfAchieved] = useState("");
   
@@ -75,6 +76,7 @@ export default function CreateCapsuleForm({
     setMessageContent("");
     setUnlockAt("");
     setPhotoFile(null);
+    setPhotoPreview(null);
     setIfNotAchieved("");
     setIfAchieved("");
     setStep(1);
@@ -251,7 +253,14 @@ export default function CreateCapsuleForm({
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
               Upload Foto (opsional)
             </label>
-            <PhotoUploader onPhotoSelected={setPhotoFile} />
+            <PhotoUploader
+              photoFile={photoFile}
+              preview={photoPreview}
+              onPhotoSelected={(file, previewUrl) => {
+                setPhotoFile(file);
+                setPhotoPreview(previewUrl);
+              }}
+            />
           </div>
 
           {/* Unlock Date */}
