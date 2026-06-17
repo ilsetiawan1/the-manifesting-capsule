@@ -10,6 +10,8 @@ export async function createCapsule(data: {
   photoUrl?: string | null;
   ifNotAchieved?: string | null;
   ifAchieved?: string | null;
+  isPrivate?: boolean;
+  isAnonymousTarget?: boolean;
 }) {
   return prisma.manifest.create({
     data,
@@ -20,6 +22,9 @@ export async function getPublicCapsules(page = 1, limit = 6) {
   const skip = (page - 1) * limit;
   const [capsules, total] = await Promise.all([
     prisma.manifest.findMany({
+      where: {
+        isPrivate: false,
+      },
       select: {
         id: true,
         accessKey: true,
@@ -29,6 +34,8 @@ export async function getPublicCapsules(page = 1, limit = 6) {
         unlockAt: true,
         createdAt: true,
         photoUrl: true,
+        isPrivate: true,
+        isAnonymousTarget: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -36,7 +43,11 @@ export async function getPublicCapsules(page = 1, limit = 6) {
       skip,
       take: limit,
     }),
-    prisma.manifest.count(),
+    prisma.manifest.count({
+      where: {
+        isPrivate: false,
+      },
+    }),
   ]);
   return { capsules, total, hasMore: skip + limit < total };
 }
@@ -58,6 +69,8 @@ export async function getCapsulesByAccessKey(accessKey: string) {
       photoUrl: true,
       ifNotAchieved: true,
       ifAchieved: true,
+      isPrivate: true,
+      isAnonymousTarget: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -85,6 +98,8 @@ export async function getUnlockedCapsuleContent(id: string) {
       photoUrl: true,
       ifNotAchieved: true,
       ifAchieved: true,
+      isPrivate: true,
+      isAnonymousTarget: true,
     },
   });
 }
@@ -103,6 +118,8 @@ export async function getCapsuleMetadataById(id: string) {
       unlockAt: true,
       createdAt: true,
       photoUrl: true,
+      isPrivate: true,
+      isAnonymousTarget: true,
     },
   });
 }
