@@ -141,3 +141,10 @@ body {
     @apply font-sans;
   }
 }
+
+/* iOS PWA Auto-Zoom Prevention */
+@media (max-width: 767px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}

@@ -30,6 +30,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#1E3A8A",
+  width: "device-width",
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -44,6 +49,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-gradient-scale=1.0, user-scalable=no, viewport-fit=cover"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
