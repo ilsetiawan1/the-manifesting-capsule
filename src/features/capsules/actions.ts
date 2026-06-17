@@ -93,11 +93,8 @@ export async function createCapsuleAction(
       try {
         photoUrl = await uploadCapsulePhoto(photoFile, key);
       } catch (uploadErr) {
-        console.error("Gagal mengupload foto ke Vercel Blob:", uploadErr);
-        return {
-          success: false,
-          error: "Gagal mengupload foto ke penyimpanan cloud.",
-        };
+        console.error("Photo upload failed, continuing without photo:", uploadErr);
+        // Jangan gagalkan seluruh capsule hanya karena foto gagal upload
       }
     }
 
@@ -118,11 +115,11 @@ export async function createCapsuleAction(
       success: true,
       data: sanitizeCapsuleForClient(capsule),
     };
-  } catch (err: any) {
-    console.error("Error in createCapsuleAction:", err);
+  } catch (error) {
+    console.error("[createCapsuleAction] Error:", error);
     return {
       success: false,
-      error: "Gagal membuat kapsul manifestasi. Silakan coba lagi.",
+      error: String(error),
     };
   }
 }
