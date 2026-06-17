@@ -105,22 +105,41 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
 
       {/* Middle Section: Target, Author, & Blurred/Normal Message */}
       <div className="flex-1 flex flex-col justify-center my-3 z-10">
-        <div className="flex items-center justify-between mb-1.5">
-          <span
-            className={cn(
-              "text-[9px] font-bold tracking-wider",
-              capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300"
-            )}
-          >
-            UNTUK: <span className="font-extrabold text-[11px] tracking-normal capitalize">{capsule.targetName}</span>
+        <div className={cn(
+          "flex items-center justify-between w-full border-b pb-2 mb-3",
+          capsule.isLocked 
+            ? "border-amber-500/10" 
+            : "border-blue-950/20"
+        )}>
+          <span className={cn(
+            "text-[11px] font-medium",
+            capsule.isLocked 
+              ? "text-slate-500 dark:text-slate-400" 
+              : "text-blue-200"
+          )}>
+            {capsule.authorName || "Anonim"}
           </span>
-          <span
-            className={cn(
-              "text-[9px] font-medium italic",
-              capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-200"
-            )}
-          >
-            ✍️ oleh {capsule.authorName || "Anonim"}
+          <div className="flex-1 mx-2.5 flex items-center">
+            <div className={cn(
+              "flex-1 border-b border-dashed",
+              capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
+            )} />
+            <span className={cn(
+              "px-1.5 text-[10px]",
+              capsule.isLocked ? "text-[#D4AF37]/40" : "text-blue-300/60"
+            )}>
+              ✦
+            </span>
+            <div className={cn(
+              "flex-1 border-b border-dashed",
+              capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
+            )} />
+          </div>
+          <span className={cn(
+            "text-[11px] font-semibold capitalize",
+            capsule.isLocked ? "text-[#D4AF37]" : "text-blue-355"
+          )}>
+            {capsule.targetName}
           </span>
         </div>
         

@@ -242,22 +242,41 @@ export default function CapsuleDetailModal({
 
               {/* Target & Sender/Receiver Info Row */}
               <div className={cn(
-                "flex flex-row items-center justify-between w-full border-b pb-3 mb-4 text-xs sm:text-sm font-medium",
+                "flex items-center justify-between w-full border-b pb-3 mb-4",
                 capsule.isLocked 
-                  ? "border-slate-100 text-slate-500 dark:text-slate-400" 
-                  : "border-blue-800/40 text-blue-200"
+                  ? "border-slate-100" 
+                  : "border-blue-800/40"
               )}>
-                {/* Sisi Kiri: Pengirim */}
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <User className="size-3.5 shrink-0" />
-                  <span className="truncate">Dari: <span className="font-semibold">{capsule.authorName || "Anonim"}</span></span>
+                <span className={cn(
+                  "text-xs sm:text-sm font-medium",
+                  capsule.isLocked 
+                    ? "text-slate-500 dark:text-slate-400" 
+                    : "text-blue-200"
+                )}>
+                  {capsule.authorName || "Anonim"}
+                </span>
+                <div className="flex-1 mx-3 flex items-center">
+                  <div className={cn(
+                    "flex-1 border-b border-dashed",
+                    capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
+                  )} />
+                  <span className={cn(
+                    "px-2 text-xs",
+                    capsule.isLocked ? "text-[#D4AF37]/45" : "text-blue-300/60"
+                  )}>
+                    ✦
+                  </span>
+                  <div className={cn(
+                    "flex-1 border-b border-dashed",
+                    capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
+                  )} />
                 </div>
-
-                {/* Sisi Kanan: Penerima */}
-                <div className="flex items-center gap-1.5 min-w-0 text-right justify-end">
-                  <span className="truncate">Untuk: <span className="font-semibold">{capsule.targetName}</span></span>
-                  <ArrowRight className="size-3.5 shrink-0" />
-                </div>
+                <span className={cn(
+                  "text-xs sm:text-sm font-semibold capitalize",
+                  capsule.isLocked ? "text-[#D4AF37]" : "text-blue-355"
+                )}>
+                  {capsule.targetName}
+                </span>
               </div>
 
               {/* Content Body / Countdown */}
