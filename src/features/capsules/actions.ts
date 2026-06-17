@@ -57,6 +57,8 @@ export async function createCapsuleAction(
     const ifNotAchieved = (formData.get("ifNotAchieved") as string) || null;
     const ifAchieved = (formData.get("ifAchieved") as string) || null;
     const photoFile = formData.get("photo") as File | null;
+    const isPrivate = formData.get("isPrivate") as string;
+    const isAnonymousTarget = formData.get("isAnonymousTarget") as string;
 
     // 1. Validasi input
     const validation = CreateCapsuleSchema.safeParse({
@@ -66,6 +68,8 @@ export async function createCapsuleAction(
       authorName,
       ifNotAchieved,
       ifAchieved,
+      isPrivate,
+      isAnonymousTarget,
     });
 
     if (!validation.success) {
@@ -108,6 +112,8 @@ export async function createCapsuleAction(
       photoUrl,
       ifNotAchieved: validation.data.ifNotAchieved,
       ifAchieved: validation.data.ifAchieved,
+      isPrivate: validation.data.isPrivate,
+      isAnonymousTarget: validation.data.isAnonymousTarget,
     });
 
     // 4. Return data yang sudah disanitasi
