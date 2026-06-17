@@ -223,34 +223,34 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 py-4 sm:py-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <div className="w-full max-w-2xl mx-auto px-4 py-3 sm:py-6 space-y-4 sm:space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-300">
       
       {/* 1. AKUN KAPSUL AKTIF (Multi-Account) */}
-      <div className="space-y-2">
-        <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-4">
+      <div>
+        <h3 className="text-[11px] font-medium tracking-wider text-slate-400 uppercase mb-2 block px-1">
           {language === "ID" ? "Pengaturan Akun" : "Account Settings"}
         </h3>
         
-        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
           {/* Active Profile Info */}
-          <div className="p-5 flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
-            <div className="flex items-center gap-4">
-              <div className="size-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
-                <User className="size-6" />
+          <div className="px-4 py-3 flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm shrink-0">
+                <User className="size-5.5" />
               </div>
-              <div>
-                <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <div className="min-w-0">
+                <h4 className="text-sm sm:text-base font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 leading-snug">
                   {isLoading ? "Memuat..." : activeName}
-                  <span className="inline-block size-2 bg-emerald-500 rounded-full" title="Aktif" />
+                  <span className="inline-block size-2 bg-emerald-500 rounded-full shrink-0" title="Aktif" />
                 </h4>
-                <p className="text-[10px] font-mono text-slate-400 dark:text-slate-500 font-semibold tracking-wider">
+                <p className="text-xs text-slate-400 dark:text-slate-500 font-normal mt-0.5 truncate max-w-[150px] sm:max-w-[280px]">
                   {accessKey || (language === "ID" ? "Belum ada kunci" : "No active key")}
                 </p>
               </div>
             </div>
             
             {accessKey && (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={handleCopy}
                   className="p-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-xl transition-all active:scale-95"
@@ -271,8 +271,8 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
 
           {/* List of other stored accounts */}
           {storedAccounts.length > 1 && (
-            <div className="px-4 py-2 bg-slate-50/50 dark:bg-slate-950/20 border-b border-slate-100 dark:border-slate-800">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider pl-1">
+            <div className="px-4 py-2.5 bg-slate-50/50 dark:bg-slate-950/20 border-b border-slate-100 dark:border-slate-800">
+              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
                 {language === "ID" ? "Beralih Akun Cepat" : "Quick Switch Accounts"}
               </p>
               <div className="space-y-1.5 mt-2">
@@ -283,22 +283,22 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
                       key={acc.key}
                       onClick={() => handleSwitchAccount(acc.key)}
                       className={cn(
-                        "flex items-center justify-between p-3 rounded-2xl border text-xs cursor-pointer transition-all",
+                        "flex items-center justify-between p-2.5 rounded-xl border text-[11px] cursor-pointer transition-all",
                         isActive 
-                          ? "bg-blue-50/50 border-blue-200/60 dark:bg-blue-950/10 dark:border-blue-900/50 text-blue-900 dark:text-blue-100" 
+                          ? "bg-blue-50/30 border-blue-200/40 dark:bg-blue-950/10 dark:border-blue-900/40 text-blue-900 dark:text-blue-100" 
                           : "bg-white border-slate-100 hover:border-slate-200 dark:bg-slate-900 dark:border-slate-800 text-slate-700 dark:text-slate-300"
                       )}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <Key className={cn("size-3.5", isActive ? "text-blue-600" : "text-slate-400")} />
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Key className={cn("size-3.5 shrink-0", isActive ? "text-blue-600" : "text-slate-400")} />
                         <div className="min-w-0">
                           <p className="font-bold truncate">{acc.name}</p>
                           <p className="font-mono text-[9px] text-slate-400 truncate tracking-wider">{acc.key}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 shrink-0">
                         {isActive ? (
-                          <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-bold dark:bg-emerald-950/30 dark:text-emerald-400">
+                          <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[8px] font-bold dark:bg-emerald-950/30 dark:text-emerald-400">
                             Aktif
                           </span>
                         ) : (
@@ -320,26 +320,26 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
 
           {/* Form / Button to add key */}
           {showAddInput ? (
-            <form onSubmit={handleAddAccount} className="flex gap-2 p-4 border-t border-slate-100/60 dark:border-slate-800/60 bg-slate-50/30 dark:bg-slate-950/10">
+            <form onSubmit={handleAddAccount} className="flex gap-2 p-3 border-t border-slate-100/60 dark:border-slate-800/60 bg-slate-50/30 dark:bg-slate-950/10">
               <input
                 type="text"
                 value={pasteKey}
                 onChange={(e) => setPasteKey(e.target.value)}
                 placeholder={language === "ID" ? "MASUKKAN ACCESS KEY LAMA" : "ENTER OLD ACCESS KEY"}
-                className="flex-1 bg-white dark:bg-slate-900 text-xs font-mono uppercase tracking-wider px-3.5 py-2.5 rounded-xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-900 dark:text-white"
+                className="flex-1 bg-white dark:bg-slate-900 text-xs font-mono uppercase tracking-wider px-3 py-2 rounded-xl border border-slate-150 dark:border-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-900 dark:text-white"
                 required
               />
               <button 
                 type="submit" 
                 disabled={isSyncing}
-                className="px-4 py-2.5 bg-blue-900 text-white hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700 rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                className="px-4 py-2 bg-blue-900 text-white hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700 rounded-xl text-xs font-bold transition-all disabled:opacity-50"
               >
                 {isSyncing ? "..." : (language === "ID" ? "Hubungkan" : "Connect")}
               </button>
               <button 
                 type="button" 
                 onClick={() => setShowAddInput(false)}
-                className="p-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               >
                 <X className="size-4" />
               </button>
@@ -347,7 +347,7 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
           ) : (
             <button 
               onClick={() => setShowAddInput(true)} 
-              className="w-full text-center py-3.5 text-xs  text-blue-600 dark:text-blue-400 hover:bg-slate-50/50 dark:hover:bg-slate-950/20 font-semibold transition-all border-t border-slate-100/60 dark:border-slate-800/60"
+              className="w-full text-center py-3 text-xs text-blue-600 dark:text-blue-400 hover:bg-slate-50/50 dark:hover:bg-slate-950/20 font-semibold transition-all border-t border-slate-100/60 dark:border-slate-800/60"
             >
               + {language === "ID" ? "Hubungkan Akun / Access Key Lain" : "Connect Another Account / Access Key"}
             </button>
@@ -356,20 +356,18 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
       </div>
 
       {/* 2. PERSONALISASI */}
-      <div className="space-y-2">
-        <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-4">
+      <div>
+        <h3 className="text-[11px] font-medium tracking-wider text-slate-400 uppercase mb-2 block px-1">
           {language === "ID" ? "Personalisasi" : "Personalization"}
         </h3>
         
-        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm divide-y divide-slate-100 dark:divide-slate-800">
           
           {/* Dark Mode Item */}
-          <div className="px-5 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3.5 text-slate-800 dark:text-slate-200">
-              <div className="p-2 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 rounded-xl">
-                <Moon className="size-4" />
-              </div>
-              <span className="text-sm font-semibold">
+          <div className="px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3 text-slate-700 dark:text-slate-350">
+              <Moon className="w-[18px] h-[18px] text-slate-600 dark:text-slate-400 shrink-0" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 {language === "ID" ? "Mode Gelap" : "Dark Mode"}
               </span>
             </div>
@@ -378,13 +376,13 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
             <button
               onClick={toggleDarkMode}
               className={cn(
-                "relative inline-flex h-6.5 w-11.5 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
                 darkMode ? "bg-indigo-600" : "bg-slate-200 dark:bg-slate-800"
               )}
             >
               <span
                 className={cn(
-                  "pointer-events-none inline-block size-5.5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                  "pointer-events-none inline-block size-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
                   darkMode ? "translate-x-5" : "translate-x-0"
                 )}
               />
@@ -392,12 +390,10 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
           </div>
 
           {/* Language Selection */}
-          <div className="px-5 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3.5 text-slate-800 dark:text-slate-200">
-              <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-xl">
-                <Globe className="size-4" />
-              </div>
-              <span className="text-sm font-semibold">
+          <div className="px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3 text-slate-700 dark:text-slate-350">
+              <Globe className="w-[18px] h-[18px] text-slate-600 dark:text-slate-400 shrink-0" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 {language === "ID" ? "Bahasa" : "Language"}
               </span>
             </div>
@@ -405,33 +401,31 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
             <select
               value={language}
               onChange={(e) => handleLanguageChange(e.target.value)}
-              className="bg-transparent text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-sm font-normal text-slate-500 dark:text-slate-400 focus:outline-none cursor-pointer pr-1 py-1"
             >
-              <option value="ID">Bahasa Indonesia</option>
-              <option value="EN">English</option>
+              <option value="ID" className="text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900">Bahasa Indonesia</option>
+              <option value="EN" className="text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900">English</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* 3. TENTANG APLIKASI */}
-      <div className="space-y-2">
-        <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-4">
+      <div>
+        <h3 className="text-[11px] font-medium tracking-wider text-slate-400 uppercase mb-2 block px-1">
           {language === "ID" ? "Tentang Aplikasi" : "About Application"}
         </h3>
         
-        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm divide-y divide-slate-100 dark:divide-slate-800">
           
           {/* Report Bug */}
           <div 
             onClick={handleReportBug}
-            className="px-5 py-4 flex items-center justify-between hover:bg-slate-50/50 dark:hover:bg-slate-950/20 cursor-pointer transition-all"
+            className="px-4 py-3 flex items-center justify-between hover:bg-slate-50/50 dark:hover:bg-slate-950/20 cursor-pointer transition-all"
           >
-            <div className="flex items-center gap-3.5 text-slate-800 dark:text-slate-200">
-              <div className="p-2 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-xl">
-                <Bug className="size-4" />
-              </div>
-              <span className="text-sm font-semibold">
+            <div className="flex items-center gap-3 text-slate-700 dark:text-slate-350">
+              <Bug className="w-[18px] h-[18px] text-slate-600 dark:text-slate-400 shrink-0" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 {language === "ID" ? "Laporkan Bug" : "Report a Bug"}
               </span>
             </div>
@@ -439,12 +433,10 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
           </div>
 
           {/* App Version */}
-          <div className="px-5 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3.5 text-slate-800 dark:text-slate-200">
-              <div className="p-2 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-xl">
-                <Info className="size-4" />
-              </div>
-              <span className="text-sm font-semibold">
+          <div className="px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3 text-slate-700 dark:text-slate-350">
+              <Info className="w-[18px] h-[18px] text-slate-600 dark:text-slate-400 shrink-0" />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 {language === "ID" ? "Versi Aplikasi" : "App Version"}
               </span>
             </div>
@@ -457,10 +449,10 @@ export default function SyncPanel({ onSyncSuccess }: SyncPanelProps) {
 
       {/* 4. KELUAR AKUN BUTTON */}
       {accessKey && (
-        <div className="pt-2">
+        <div className="pt-1">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 py-4 bg-white hover:bg-rose-50/30 dark:bg-slate-900 dark:hover:bg-rose-950/10 border border-slate-100 dark:border-slate-800 hover:border-rose-100 dark:hover:border-rose-950/50 text-rose-600 rounded-3xl text-sm font-bold shadow-sm transition-all active:scale-95"
+            className="w-full flex items-center justify-center gap-2 py-3 bg-white hover:bg-rose-50/30 dark:bg-slate-900 dark:hover:bg-rose-950/10 border border-slate-100 dark:border-slate-800 hover:border-rose-100 dark:hover:border-rose-950/50 text-rose-600 rounded-2xl text-sm font-semibold shadow-sm transition-all active:scale-95"
           >
             <LogOut className="size-4" />
             <span>
