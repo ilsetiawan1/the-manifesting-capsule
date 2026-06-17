@@ -26,6 +26,8 @@ export const CreateCapsuleSchema = z.object({
   photoUrl: z.string().nullable().optional(),
   ifNotAchieved: z.string().max(500, "Maksimal 500 karakter").nullable().optional(),
   ifAchieved: z.string().max(500, "Maksimal 500 karakter").nullable().optional(),
+  isPrivate: z.preprocess((val) => val === "true" || val === true, z.boolean()).optional().default(false),
+  isAnonymousTarget: z.preprocess((val) => val === "true" || val === true, z.boolean()).optional().default(true),
 });
 
 export const ResonateSchema = z.object({
