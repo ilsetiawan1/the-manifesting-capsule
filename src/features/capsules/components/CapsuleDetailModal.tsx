@@ -250,7 +250,7 @@ export default function CapsuleDetailModal({
                 <span className={cn(
                   "text-xs sm:text-sm font-medium",
                   capsule.isLocked 
-                    ? "text-slate-500 dark:text-slate-400" 
+                    ? "text-slate-600 dark:text-slate-300" 
                     : "text-blue-200"
                 )}>
                   {capsule.authorName || "Anonim"}

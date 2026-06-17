@@ -116,7 +116,7 @@ export default function Home() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 max-w-5xl mx-auto px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8 lg:max-h-screen lg:overflow-y-auto pb-28 lg:pb-8 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-slate-950/20">
+      <div className="flex-1 flex flex-col min-w-0 max-w-5xl mx-auto px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8 pb-28 lg:pb-8 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900 dark:to-slate-950/20">
         {/* Header dengan Ghost Search */}
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 

@@ -114,7 +114,7 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
           <span className={cn(
             "text-[11px] font-medium",
             capsule.isLocked 
-              ? "text-slate-500 dark:text-slate-400" 
+              ? "text-slate-600 dark:text-slate-300" 
               : "text-blue-200"
           )}>
             {capsule.authorName || "Anonim"}
