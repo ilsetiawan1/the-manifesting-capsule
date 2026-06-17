@@ -6,8 +6,11 @@ export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isAlreadyInstalled, setIsAlreadyInstalled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+
     if (typeof window !== "undefined") {
       // Check if currently running in PWA standalone mode
       const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
@@ -65,12 +68,14 @@ export function usePWAInstall() {
   const isLocalhost = typeof window !== "undefined" && window.location.hostname === "localhost";
   
   // Jika sedang di dalam mode standalone, matikan paksa tombol meskipun di localhost
-  const finalShowButton = isStandalone ? false : (showInstallButton || isLocalhost);
+  const finalShowButton = !isMounted ? false : (isStandalone ? false : (showInstallButton || isLocalhost));
+  const finalIsAlreadyInstalled = !isMounted ? false : isAlreadyInstalled;
+  const finalIsStandalone = !isMounted ? false : isStandalone;
 
   return { 
     showInstallButton: finalShowButton, 
-    isAlreadyInstalled, 
-    isStandalone, 
+    isAlreadyInstalled: finalIsAlreadyInstalled, 
+    isStandalone: finalIsStandalone, 
     handleInstallClick 
   };
 }
