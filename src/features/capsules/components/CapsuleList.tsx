@@ -3,7 +3,7 @@
 import React from "react";
 import BentoCard from "./BentoCard";
 import { ClientCapsule } from "@/types";
-import { Sparkles, Compass } from "lucide-react";
+import { Sparkles, Compass, Sprout, Plus } from "lucide-react";
 
 interface CapsuleListProps {
   capsules: ClientCapsule[];
@@ -22,7 +22,7 @@ export default function CapsuleList({
     return (
       <div className="flex flex-col items-center justify-center text-center p-10 py-16 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm max-w-sm mx-auto my-12 animate-in fade-in zoom-in-95 duration-350">
         <div className="size-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-6 shadow-inner">
-          <span className="text-3xl">🌱</span>
+          <Sprout className="size-8 text-blue-500" />
         </div>
         <h3 className="text-base font-bold text-slate-800 mb-2">
           {isHistoryTab ? "Belum ada teks mimpi" : "Feed masih kosong"}
@@ -37,7 +37,7 @@ export default function CapsuleList({
             onClick={onAddFirstClick}
             className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-xs font-bold shadow-md shadow-blue-500/20 active:scale-95 transition-all"
           >
-            <span>✚</span> Buat Kapsul Pertama
+            <Plus className="size-3.5" /> Buat Kapsul Pertama
           </button>
         ) : (
           <button
