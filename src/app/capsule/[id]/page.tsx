@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import * as repository from "@/features/capsules/repository";
 import { sanitizeCapsuleForClient } from "@/features/capsules/services";
 import CapsulePageClient from "./CapsulePageClient";
+import { Sprout, Sparkles } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -79,14 +80,15 @@ export default async function CapsulePage({ params }: PageProps) {
       {/* Standalone Page Header */}
       <header className="w-full max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-black tracking-tight text-lg text-white">
-          <span className="text-2xl">🌱</span>
+          <Sprout className="size-6 text-emerald-400" />
           <span>Manifesting Capsule</span>
         </Link>
         <Link
           href="/"
-          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-2xl transition-all active:scale-95"
+          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-2xl transition-all active:scale-95 flex items-center gap-1.5"
         >
-          Buat Kapsul Sendiri ✨
+          <span>Buat Kapsul Sendiri</span>
+          <Sparkles className="size-3.5 text-yellow-450" />
         </Link>
       </header>
 
