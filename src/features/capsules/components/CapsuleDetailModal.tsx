@@ -247,34 +247,44 @@ export default function CapsuleDetailModal({
                 capsule.isLocked ? "border-slate-100" : "border-blue-800/40"
               )}>
                 {/* Author */}
-                <span className={cn(
-                  "text-xs sm:text-sm font-medium truncate max-w-[35%]",
-                  capsule.isLocked ? "text-slate-600 dark:text-slate-300" : "text-blue-200"
-                )}>
+                <span
+                  title={capsule.authorName || "Anonim"}
+                  className={cn(
+                    "text-xs sm:text-sm font-medium truncate max-w-[40%]",
+                    capsule.isLocked ? "text-slate-600 dark:text-slate-300" : "text-blue-200"
+                  )}
+                >
                   {capsule.authorName || "Anonim"}
                 </span>
 
                 {/* Arrow indicator — menunjukkan arah pengiriman */}
                 <div className="flex items-center gap-1 mx-2 shrink-0">
                   <span className={cn(
-                    "text-[10px] uppercase tracking-wide",
-                    capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/60"
+                    "text-[9px] sm:text-[10px] uppercase tracking-wide",
+                    capsule.isLocked
+                      ? "text-slate-400/70 dark:text-slate-500/70"
+                      : "text-blue-300/40"
                   )}>
                     untuk
                   </span>
                   <ArrowRight className={cn(
                     "size-3.5",
-                    capsule.isLocked ? "text-[#D4AF37]/50" : "text-blue-300/50"
+                    capsule.isLocked
+                      ? "text-slate-400/50 dark:text-slate-500/50"
+                      : "text-blue-300/40"
                   )} />
                 </div>
 
                 {/* Target */}
-                <span className={cn(
-                  "text-xs sm:text-sm font-semibold capitalize truncate max-w-[35%] text-right",
-                  capsule.isAnonymousTarget
-                    ? (capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/50")
-                    : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-100")
-                )}>
+                <span
+                  title={capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
+                  className={cn(
+                    "text-xs sm:text-sm font-semibold capitalize truncate max-w-[40%] text-right",
+                    capsule.isAnonymousTarget
+                      ? (capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/50")
+                      : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-100")
+                  )}
+                >
                   {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
                 </span>
               </div>
