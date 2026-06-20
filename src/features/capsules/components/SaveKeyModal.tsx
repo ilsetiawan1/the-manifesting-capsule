@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { Copy, Check, AlertTriangle } from "lucide-react";
+import { Copy, Check, AlertTriangle, Key } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -49,8 +49,8 @@ export default function SaveKeyModal({ accessKey, isOpen, onClose }: SaveKeyModa
           <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600" />
 
           {/* Icon Header */}
-          <div className="mx-auto size-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl mb-4 mt-2">
-            🔑
+          <div className="mx-auto size-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 mt-2">
+            <Key className="size-6 text-blue-600" />
           </div>
 
           <h3 className="text-lg font-black text-center text-slate-800 tracking-tight mb-2">
