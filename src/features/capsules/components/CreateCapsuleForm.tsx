@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Lock, ArrowRight, ArrowLeft } from "lucide-react";
+import { X, Lock, ArrowRight, ArrowLeft, Sprout } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createCapsuleAction } from "../actions";
 import { CreateCapsuleSchema } from "../schemas";
@@ -578,7 +578,7 @@ export default function CreateCapsuleForm({
         <DialogContent className="max-w-lg w-full rounded-3xl p-8 bg-white text-slate-900 border-none shadow-2xl relative overflow-hidden" showCloseButton={true}>
           <DialogHeader className="mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-xl">🌱</span>
+              <Sprout className="size-5 text-blue-600 dark:text-blue-400" />
               <DialogTitle className="text-lg font-bold text-slate-900 tracking-tight">
                 Drop Your Capsule {step === 2 && "- Langkah 2"}
               </DialogTitle>
@@ -625,7 +625,7 @@ export default function CreateCapsuleForm({
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <span className="text-xl">🌱</span>
+            <Sprout className="size-5 text-blue-600 dark:text-blue-400" />
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
               Drop Your Capsule {step === 2 && "- Langkah 2"}
             </h2>
