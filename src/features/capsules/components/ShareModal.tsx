@@ -57,25 +57,36 @@ export default function ShareModal({ capsule, onClose }: ShareModalProps) {
         windowHeight: 640,
       });
 
-      const dataUrl = canvas.toDataURL("image/png");
+      // Gunakan canvas.toBlob (lebih stabil untuk Windows daripada base64 toDataURL)
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          toast.error("Gagal membuat berkas gambar.", { id: toastId });
+          setIsDownloading(false);
+          return;
+        }
 
-      // Deteksi jika hasil capture kosong/blank (kemungkinan tainted canvas)
-      if (dataUrl === "data:,") {
-        throw new Error("Canvas kosong — kemungkinan masalah CORS pada gambar");
-      }
+        const url = URL.createObjectURL(blob);
+        const fileName = `manifesting-capsule-${theme}-${Date.now()}.png`;
 
-      const link = document.createElement("a");
-      link.download = `manifesting-capsule-${theme}-${capsule.id.slice(0, 8)}.png`;
-      link.href = dataUrl;
-      document.body.appendChild(link); // pastikan link ter-attach ke DOM (fix Safari)
-      link.click();
-      document.body.removeChild(link);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-      toast.success("Gambar berhasil disimpan ke perangkat!", { id: toastId });
+        // Revoke object URL setelah sedikit delay untuk memastikan browser selesai mendownload
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 150);
+
+        toast.success("Gambar berhasil disimpan ke perangkat!", { id: toastId });
+        setIsDownloading(false);
+      }, "image/png");
+
     } catch (err) {
       console.error("[html2canvas download error]:", err);
       toast.error("Gagal menyimpan gambar. Silakan coba lagi.", { id: toastId });
-    } finally {
       setIsDownloading(false);
     }
   };
