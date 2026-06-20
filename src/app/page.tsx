@@ -13,7 +13,7 @@ import { getPublicCapsulesAction, getMyCapsulesAction } from "@/features/capsule
 import { ClientCapsule } from "@/types";
 import { cn } from "@/lib/utils";
 import { AnimatePresence } from "framer-motion";
-import { Smartphone } from "lucide-react";
+import { Smartphone, Sparkles } from "lucide-react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 export default function Home() {
@@ -253,9 +253,10 @@ export default function Home() {
                   {activeTab === "explore" && hasMore && (
                     <button
                       onClick={handleLoadMore}
-                      className="w-full py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-sm hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+                      className="w-full py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-sm hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors inline-flex items-center justify-center gap-2"
                     >
-                      Muat Lebih Banyak ✨
+                      <span>Muat Lebih Banyak</span>
+                      <Sparkles className="size-3.5" />
                     </button>
                   )}
                 </div>
