@@ -93,176 +93,239 @@ export default function ShareModal({ capsule, onClose }: ShareModalProps) {
     year: "numeric",
   });
 
-  // Reusable card content layout to avoid duplication
-  const renderCardContent = () => (
-    <div
-      className={cn(
-        "relative w-full h-full p-6 flex flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/10 select-none transition-all duration-300",
-        theme === "light"
-          ? "bg-gradient-to-tr from-slate-50 via-white to-blue-50/50"
-          : "bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950"
-      )}
-    >
-      {/* Photo Background (renders as overlay background if photo exists and unlocked) */}
-      {capsule.photoUrl && !capsule.isLocked && (
-        <div className="absolute inset-0 z-0">
-          <img
-            src={capsule.photoUrl}
-            alt=""
-            className="w-full h-full object-cover opacity-25"
-            crossOrigin="anonymous"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = "none";
-            }}
-          />
-          <div className={cn(
-            "absolute inset-0",
-            theme === "light"
-              ? "bg-gradient-to-b from-white/90 via-white/70 to-white/95"
-              : "bg-gradient-to-b from-slate-950/90 via-slate-950/70 to-slate-950/95"
-          )} />
-        </div>
-      )}
+  // Reusable card content layout using raw HEX/RGBA colors to avoid oklab/oklch parser errors in html2canvas
+  const renderCardContent = () => {
+    const isLight = theme === "light";
+    const colors = {
+      cardBg: isLight 
+        ? "linear-gradient(to bottom right, #f8fafc, #ffffff, #eff6ff)" 
+        : "linear-gradient(to bottom, #020617, #0f172a, #0c0a2e)",
+      cardBorder: isLight ? "rgba(0, 0, 0, 0.08)" : "rgba(255, 255, 255, 0.1)",
+      textPrimary: isLight ? "#0f172a" : "#ffffff",
+      textSecondary: isLight ? "#475569" : "rgba(255, 255, 255, 0.7)",
+      textMuted: isLight ? "#64748b" : "rgba(255, 255, 255, 0.4)",
+      logoBorder: isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)",
+      logoBg: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+      logoTextSub: isLight ? "#2563eb" : "#93c5fd",
+      sparkles: isLight ? "#3b82f6" : "#93c5fd",
+      lockIcon: isLight ? "#64748b" : "rgba(255, 255, 255, 0.4)",
+      successIcon: isLight ? "#16a34a" : "#34d399",
+      successText: isLight ? "#16a34a" : "#34d399",
+      divider: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.2)",
+      ctaText: isLight ? "#64748b" : "rgba(255, 255, 255, 0.5)",
+      ctaBadgeBg: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+      ctaBadgeBorder: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.1)",
+      glow1: isLight ? "rgba(147, 197, 253, 0.1)" : "rgba(59, 130, 246, 0.1)",
+      glow2: isLight ? "rgba(196, 181, 253, 0.1)" : "rgba(124, 58, 237, 0.1)",
+      glow3: isLight ? "rgba(110, 231, 183, 0.05)" : "rgba(16, 185, 129, 0.05)",
+    };
 
-      {/* Aurora Background Glows (only visible when there is no background photo) */}
-      {(!capsule.photoUrl || capsule.isLocked) && (
-        <>
-          <div className={cn(
-            "absolute top-[-20%] left-[-20%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350",
-            theme === "light" ? "bg-blue-300/10" : "bg-blue-500/10"
-          )} />
-          <div className={cn(
-            "absolute bottom-[-10%] right-[-10%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350",
-            theme === "light" ? "bg-violet-300/10" : "bg-violet-600/10"
-          )} />
-          <div className={cn(
-            "absolute top-[30%] left-[20%] w-[80%] h-[40%] rounded-full blur-[90px] pointer-events-none transition-all duration-350",
-            theme === "light" ? "bg-emerald-300/5" : "bg-emerald-500/5"
-          )} />
-        </>
-      )}
+    return (
+      <div
+        className="relative w-full h-full p-6 flex flex-col justify-between overflow-hidden rounded-[2.5rem] select-none transition-all duration-300"
+        style={{
+          background: colors.cardBg,
+          borderColor: colors.cardBorder,
+          borderWidth: "1px",
+          borderStyle: "solid",
+        }}
+      >
+        {/* Photo Background (renders as overlay background if photo exists and unlocked) */}
+        {capsule.photoUrl && !capsule.isLocked && (
+          <div className="absolute inset-0 z-0">
+            <img
+              src={capsule.photoUrl}
+              alt=""
+              className="w-full h-full object-cover opacity-25"
+              crossOrigin="anonymous"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: isLight
+                  ? "linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.95))"
+                  : "linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.95))"
+              }}
+            />
+          </div>
+        )}
 
-      {/* Header: App Watermark Logo (Top) */}
-      <div className="flex items-center gap-2.5 z-10">
-        <div className={cn(
-          "relative size-8 rounded-lg overflow-hidden border flex items-center justify-center transition-all duration-300",
-          theme === "light"
-            ? "border-slate-200 bg-slate-100"
-            : "border-white/20 bg-white/5"
-        )}>
-          <img
-            src="/logo/logo.png"
-            alt="Logo"
-            className="size-6 object-contain"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = "none";
+        {/* Aurora Background Glows (only visible when there is no background photo) */}
+        {(!capsule.photoUrl || capsule.isLocked) && (
+          <>
+            <div
+              className="absolute top-[-20%] left-[-20%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350"
+              style={{ background: colors.glow1 }}
+            />
+            <div
+              className="absolute bottom-[-10%] right-[-10%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350"
+              style={{ background: colors.glow2 }}
+            />
+            <div
+              className="absolute top-[30%] left-[20%] w-[80%] h-[40%] rounded-full blur-[90px] pointer-events-none transition-all duration-350"
+              style={{ background: colors.glow3 }}
+            />
+          </>
+        )}
+
+        {/* Header: App Watermark Logo (Top) */}
+        <div className="flex items-center gap-2.5 z-10">
+          <div
+            className="relative size-8 rounded-lg overflow-hidden flex items-center justify-center transition-all duration-300"
+            style={{
+              border: `1px solid ${colors.logoBorder}`,
+              backgroundColor: colors.logoBg,
             }}
-          />
+          >
+            <img
+              src="/logo/logo.png"
+              alt="Logo"
+              className="size-6 object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+          </div>
+          <div>
+            <h4
+              className="text-[10px] font-black tracking-widest uppercase leading-none transition-colors duration-300"
+              style={{ color: colors.textPrimary }}
+            >
+              The Manifesting Capsule
+            </h4>
+            <span
+              className="text-[8px] font-medium tracking-wider uppercase mt-0.5 block transition-colors duration-300"
+              style={{ color: colors.logoTextSub }}
+            >
+              Silent Sanctuary
+            </span>
+          </div>
         </div>
-        <div>
-          <h4 className={cn(
-            "text-[10px] font-black tracking-widest uppercase leading-none transition-colors duration-300",
-            theme === "light" ? "text-slate-900" : "text-white"
-          )}>
-            The Manifesting Capsule
-          </h4>
-          <span className={cn(
-            "text-[8px] font-medium tracking-wider uppercase mt-0.5 block transition-colors duration-300",
-            theme === "light" ? "text-blue-600" : "text-blue-300"
-          )}>
-            Silent Sanctuary
+
+        {/* Hero Message Content Panel */}
+        {!capsule.isLocked ? (
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-4 py-8 z-10">
+            <Sparkles
+              className="size-5 mb-4 opacity-30"
+              style={{ color: colors.sparkles }}
+            />
+            <p
+              className="text-base leading-relaxed font-serif italic line-clamp-6 transition-colors duration-300"
+              style={{ color: colors.textPrimary }}
+            >
+              "{capsule.messageContent}"
+            </p>
+            <Sparkles
+              className="size-5 mt-4 opacity-30"
+              style={{ color: colors.sparkles }}
+            />
+          </div>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-8 z-10">
+            <Lock
+              className="size-6 mb-4 opacity-40"
+              style={{ color: colors.lockIcon }}
+            />
+            <p
+              className="text-sm italic transition-colors duration-300"
+              style={{ color: colors.textSecondary }}
+            >
+              Sebuah manifestasi sedang tersegel...
+            </p>
+            {/* Visual Teaser Placeholder Lines */}
+            <div className="mt-4 space-y-2.5 w-full px-6">
+              <div
+                className="h-1.5 rounded-full mx-auto w-[85%]"
+                style={{ backgroundColor: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.1)" }}
+              />
+              <div
+                className="h-1.5 rounded-full mx-auto w-[70%]"
+                style={{ backgroundColor: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.1)" }}
+              />
+              <div
+                className="h-1.5 rounded-full mx-auto w-[55%]"
+                style={{ backgroundColor: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.1)" }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Sender & Receiver Info */}
+        <div className="text-center mb-1 z-10">
+          <p
+            className="text-base font-black tracking-tight transition-colors duration-300"
+            style={{ color: colors.textPrimary }}
+          >
+            Untuk {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
+          </p>
+          <p
+            className="text-[11px] font-medium mt-0.5 transition-colors duration-300"
+            style={{ color: colors.textMuted }}
+          >
+            dari {capsule.authorName || "Anonim"}
+          </p>
+        </div>
+
+        {/* Status Info */}
+        <div className="flex items-center justify-center gap-1.5 mb-4 z-10">
+          {capsule.isLocked ? (
+            <>
+              <Lock
+                className="size-3"
+                style={{ color: colors.textMuted }}
+              />
+              <span
+                className="text-[10px] font-semibold"
+                style={{ color: colors.textMuted }}
+              >
+                Terbuka dalam {capsule.daysLeft} hari
+              </span>
+            </>
+          ) : (
+            <>
+              <Unlock
+                className="size-3"
+                style={{ color: colors.successIcon }}
+              />
+              <span
+                className="text-[10px] font-semibold"
+                style={{ color: colors.successText }}
+              >
+                Terbuka sepenuhnya
+              </span>
+            </>
+          )}
+        </div>
+
+        {/* Bottom Watermark & Call To Action */}
+        <div className="flex flex-col items-center gap-1.5 z-10 pb-1">
+          <div
+            className="w-8 h-[1px] mb-1"
+            style={{ backgroundColor: colors.divider }}
+          />
+          <span
+            className="text-[10px] font-medium transition-colors duration-300"
+            style={{ color: colors.ctaText }}
+          >
+            Apa manifestasimu?
+          </span>
+          <span
+            className="text-[11px] font-bold px-4 py-1.5 rounded-full tracking-wide transition-all duration-300"
+            style={{
+              color: colors.textPrimary,
+              backgroundColor: colors.ctaBadgeBg,
+              border: `1px solid ${colors.ctaBadgeBorder}`,
+            }}
+          >
+            the-manifesting-capsule.vercel.app
           </span>
         </div>
       </div>
-
-      {/* Hero Message Content Panel */}
-      {!capsule.isLocked ? (
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 py-8 z-10">
-          <Sparkles className={cn("size-5 mb-4 opacity-30", theme === "light" ? "text-blue-500" : "text-blue-300")} />
-          <p className={cn(
-            "text-base leading-relaxed font-serif italic line-clamp-6 transition-colors duration-300",
-            theme === "light" ? "text-slate-800" : "text-white"
-          )}>
-            "{capsule.messageContent}"
-          </p>
-          <Sparkles className={cn("size-5 mt-4 opacity-30", theme === "light" ? "text-blue-500" : "text-blue-300")} />
-        </div>
-      ) : (
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-8 z-10">
-          <Lock className={cn("size-6 mb-4 opacity-40", theme === "light" ? "text-slate-500" : "text-white/40")} />
-          <p className={cn(
-            "text-sm italic transition-colors duration-300",
-            theme === "light" ? "text-slate-500" : "text-white/60"
-          )}>
-            Sebuah manifestasi sedang tersegel...
-          </p>
-          {/* Visual Teaser Placeholder Lines */}
-          <div className="mt-4 space-y-2.5 w-full px-6">
-            <div className={cn("h-1.5 rounded-full mx-auto w-[85%]", theme === "light" ? "bg-slate-200" : "bg-white/10")} />
-            <div className={cn("h-1.5 rounded-full mx-auto w-[70%]", theme === "light" ? "bg-slate-200" : "bg-white/10")} />
-            <div className={cn("h-1.5 rounded-full mx-auto w-[55%]", theme === "light" ? "bg-slate-200" : "bg-white/10")} />
-          </div>
-        </div>
-      )}
-
-      {/* Sender & Receiver Info */}
-      <div className="text-center mb-1 z-10">
-        <p className={cn(
-          "text-base font-black tracking-tight transition-colors duration-300",
-          theme === "light" ? "text-slate-900" : "text-white"
-        )}>
-          Untuk {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
-        </p>
-        <p className={cn(
-          "text-[11px] font-medium mt-0.5 transition-colors duration-300",
-          theme === "light" ? "text-slate-400" : "text-white/40"
-        )}>
-          dari {capsule.authorName || "Anonim"}
-        </p>
-      </div>
-
-      {/* Status Info */}
-      <div className="flex items-center justify-center gap-1.5 mb-4 z-10">
-        {capsule.isLocked ? (
-          <>
-            <Lock className={cn("size-3", theme === "light" ? "text-slate-400" : "text-white/40")} />
-            <span className={cn("text-[10px] font-semibold", theme === "light" ? "text-slate-400" : "text-white/40")}>
-              Terbuka dalam {capsule.daysLeft} hari
-            </span>
-          </>
-        ) : (
-          <>
-            <Unlock className={cn("size-3", theme === "light" ? "text-emerald-600" : "text-emerald-400")} />
-            <span className={cn("text-[10px] font-semibold", theme === "light" ? "text-emerald-600" : "text-emerald-400")}>
-              Terbuka sepenuhnya
-            </span>
-          </>
-        )}
-      </div>
-
-      {/* Bottom Watermark & Call To Action */}
-      <div className="flex flex-col items-center gap-1.5 z-10 pb-1">
-        <div className={cn(
-          "w-8 h-[1px] mb-1",
-          theme === "light" ? "bg-slate-300" : "bg-white/20"
-        )} />
-        <span className={cn(
-          "text-[10px] font-medium transition-colors duration-300",
-          theme === "light" ? "text-slate-500" : "text-white/50"
-        )}>
-          Apa manifestasimu?
-        </span>
-        <span className={cn(
-          "text-[11px] font-bold px-4 py-1.5 rounded-full tracking-wide transition-all duration-300 border",
-          theme === "light"
-            ? "text-slate-800 bg-slate-100 border-slate-200"
-            : "text-white/90 bg-white/5 border-white/10"
-        )}>
-          the-manifesting-capsule.vercel.app
-        </span>
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
