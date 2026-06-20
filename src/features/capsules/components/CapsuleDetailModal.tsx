@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Lock, Unlock, Heart, Check, Share2, User, ArrowRight } from "lucide-react";
+import { X, Lock, Unlock, Heart, Check, Share2, User, ArrowRight, Sparkles, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClientCapsule } from "@/types";
 import { getUnlockedCapsuleContentAction, resonateAction } from "../actions";
@@ -108,7 +108,7 @@ export default function CapsuleDetailModal({
       const res = await resonateAction(capsule.id);
       if (res.success) {
         onResonateSuccess(capsule.id, res.data?.resonateCount || resonateCount + 1);
-        toast.success("✨ Resonansi ditambahkan!");
+        toast.success("Resonansi ditambahkan!");
       } else {
         setResonateCount((prev) => prev - 1);
         setHasResonated(false);
@@ -128,7 +128,7 @@ export default function CapsuleDetailModal({
     const url = `${window.location.origin}/capsule/${capsule.id}`;
     navigator.clipboard.writeText(url);
     setCopiedLink(true);
-    toast.success("✅ Tautan kapsul disalin!");
+    toast.success("Tautan kapsul disalin!");
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
@@ -142,7 +142,7 @@ export default function CapsuleDetailModal({
     if (capsule.isLocked) {
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 500);
-      toast.error("🔒 Kapsul ini masih terkunci!");
+      toast.error("Kapsul ini masih terkunci!");
     } else {
       setIsFlipped((prev) => !prev);
     }
@@ -224,7 +224,8 @@ export default function CapsuleDetailModal({
                 </span>
                 {!capsule.isLocked && (
                   <span className="text-xs font-semibold text-blue-200 animate-pulse flex items-center gap-1">
-                    ✨ Tap untuk Balik
+                    <Sparkles className="size-3 text-blue-200" />
+                    <span>Tap untuk Balik</span>
                   </span>
                 )}
               </div>
@@ -243,39 +244,36 @@ export default function CapsuleDetailModal({
               {/* Target & Sender/Receiver Info Row */}
               <div className={cn(
                 "flex items-center justify-between w-full border-b pb-3 mb-4",
-                capsule.isLocked 
-                  ? "border-slate-100" 
-                  : "border-blue-800/40"
+                capsule.isLocked ? "border-slate-100" : "border-blue-800/40"
               )}>
+                {/* Author */}
                 <span className={cn(
-                  "text-xs sm:text-sm font-medium",
-                  capsule.isLocked 
-                    ? "text-slate-600 dark:text-slate-300" 
-                    : "text-blue-200"
+                  "text-xs sm:text-sm font-medium truncate max-w-[35%]",
+                  capsule.isLocked ? "text-slate-600 dark:text-slate-300" : "text-blue-200"
                 )}>
                   {capsule.authorName || "Anonim"}
                 </span>
-                <div className="flex-1 mx-3 flex items-center">
-                  <div className={cn(
-                    "flex-1 border-b border-dashed",
-                    capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
-                  )} />
+
+                {/* Arrow indicator — menunjukkan arah pengiriman */}
+                <div className="flex items-center gap-1 mx-2 shrink-0">
                   <span className={cn(
-                    "px-2 text-xs",
-                    capsule.isLocked ? "text-[#D4AF37]/45" : "text-blue-300/60"
+                    "text-[10px] uppercase tracking-wide",
+                    capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/60"
                   )}>
-                    ✦
+                    untuk
                   </span>
-                  <div className={cn(
-                    "flex-1 border-b border-dashed",
-                    capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
+                  <ArrowRight className={cn(
+                    "size-3.5",
+                    capsule.isLocked ? "text-[#D4AF37]/50" : "text-blue-300/50"
                   )} />
                 </div>
+
+                {/* Target */}
                 <span className={cn(
-                  "text-xs sm:text-sm font-semibold capitalize",
+                  "text-xs sm:text-sm font-semibold capitalize truncate max-w-[35%] text-right",
                   capsule.isAnonymousTarget
                     ? (capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/50")
-                    : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-355")
+                    : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-100")
                 )}>
                   {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
                 </span>
@@ -349,7 +347,7 @@ export default function CapsuleDetailModal({
                       </p>
                     </div>
                   </div>
-                  <span className="text-xl">🔄</span>
+                  <RefreshCw className="size-4 text-blue-200" />
                 </div>
               )}
 
@@ -446,7 +444,8 @@ export default function CapsuleDetailModal({
                   Isi Kapsul
                 </span>
                 <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
-                  🔄 Tap untuk Balik Depan
+                  <RefreshCw className="size-3 text-slate-400" />
+                  <span>Tap untuk Balik Depan</span>
                 </span>
               </div>
 
