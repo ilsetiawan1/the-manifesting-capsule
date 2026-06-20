@@ -112,10 +112,13 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
           capsule.isLocked ? "border-amber-500/10" : "border-blue-950/20"
         )}>
           {/* Author */}
-          <span className={cn(
-            "text-[11px] font-medium truncate max-w-[35%]",
-            capsule.isLocked ? "text-slate-600 dark:text-slate-300" : "text-blue-200"
-          )}>
+          <span
+            title={capsule.authorName || "Anonim"}
+            className={cn(
+              "text-[11px] font-medium truncate max-w-[40%]",
+              capsule.isLocked ? "text-slate-600 dark:text-slate-300" : "text-blue-200"
+            )}
+          >
             {capsule.authorName || "Anonim"}
           </span>
 
@@ -123,23 +126,30 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
           <div className="flex items-center gap-1 mx-2 shrink-0">
             <span className={cn(
               "text-[9px] uppercase tracking-wide",
-              capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/60"
+              capsule.isLocked
+                ? "text-slate-400/70 dark:text-slate-500/70"
+                : "text-blue-300/40"
             )}>
               untuk
             </span>
             <ArrowRight className={cn(
               "size-3",
-              capsule.isLocked ? "text-[#D4AF37]/50" : "text-blue-300/50"
+              capsule.isLocked
+                ? "text-slate-400/50 dark:text-slate-500/50"
+                : "text-blue-300/40"
             )} />
           </div>
 
           {/* Target */}
-          <span className={cn(
-            "text-[11px] font-semibold capitalize truncate max-w-[35%] text-right",
-            capsule.isAnonymousTarget
-              ? (capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/50")
-              : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-100")
-          )}>
+          <span
+            title={capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
+            className={cn(
+              "text-[11px] font-semibold capitalize truncate max-w-[40%] text-right",
+              capsule.isAnonymousTarget
+                ? (capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/50")
+                : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-100")
+            )}
+          >
             {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
           </span>
         </div>
@@ -160,7 +170,7 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
         {/* Progress Bar & Status */}
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-center mb-1 text-[9px] sm:text-[10px] tracking-tight">
-            <span className={cn("font-mono font-medium truncate flex items-center gap-1", capsule.isLocked ? "text-slate-550 dark:text-slate-400" : "text-blue-200")}>
+            <span className={cn("font-mono font-medium truncate flex items-center gap-1", capsule.isLocked ? "text-slate-500 dark:text-slate-400" : "text-blue-200")}>
               {capsule.isLocked ? (
                 <>
                   <Clock className="size-3" />
@@ -173,7 +183,7 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
                 </span>
               )}
             </span>
-            <span className={cn("font-mono font-semibold shrink-0 ml-1", capsule.isLocked ? "text-slate-600 dark:text-slate-355" : "text-blue-100")}>
+            <span className={cn("font-mono font-semibold shrink-0 ml-1", capsule.isLocked ? "text-slate-600 dark:text-slate-400" : "text-blue-100")}>
               {capsule.progressPercent}%
             </span>
           </div>
