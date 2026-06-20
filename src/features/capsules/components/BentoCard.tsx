@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Lock, Unlock, Sparkles, MoreVertical, Heart } from "lucide-react";
+import { Lock, Unlock, Sparkles, MoreVertical, Heart, ArrowRight, CheckCircle2, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClientCapsule } from "@/types";
 import { resonateAction } from "../actions";
@@ -74,7 +74,9 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-  })}`;  return (
+  })}`;
+
+  return (
     <div
       onClick={() => onCardClick(capsule)}
       className={cn(
@@ -107,39 +109,36 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
       <div className="flex-1 flex flex-col justify-center my-3 z-10">
         <div className={cn(
           "flex items-center justify-between w-full border-b pb-2 mb-3",
-          capsule.isLocked 
-            ? "border-amber-500/10" 
-            : "border-blue-950/20"
+          capsule.isLocked ? "border-amber-500/10" : "border-blue-950/20"
         )}>
+          {/* Author */}
           <span className={cn(
-            "text-[11px] font-medium",
-            capsule.isLocked 
-              ? "text-slate-600 dark:text-slate-300" 
-              : "text-blue-200"
+            "text-[11px] font-medium truncate max-w-[35%]",
+            capsule.isLocked ? "text-slate-600 dark:text-slate-300" : "text-blue-200"
           )}>
             {capsule.authorName || "Anonim"}
           </span>
-          <div className="flex-1 mx-2.5 flex items-center">
-            <div className={cn(
-              "flex-1 border-b border-dashed",
-              capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
-            )} />
+
+          {/* Arrow indicator — menunjukkan arah pengiriman */}
+          <div className="flex items-center gap-1 mx-2 shrink-0">
             <span className={cn(
-              "px-1.5 text-[10px]",
-              capsule.isLocked ? "text-[#D4AF37]/40" : "text-blue-300/60"
+              "text-[9px] uppercase tracking-wide",
+              capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/60"
             )}>
-              ✦
+              untuk
             </span>
-            <div className={cn(
-              "flex-1 border-b border-dashed",
-              capsule.isLocked ? "border-[#D4AF37]/20" : "border-blue-300/30"
+            <ArrowRight className={cn(
+              "size-3",
+              capsule.isLocked ? "text-[#D4AF37]/50" : "text-blue-300/50"
             )} />
           </div>
+
+          {/* Target */}
           <span className={cn(
-            "text-[11px] font-semibold capitalize",
+            "text-[11px] font-semibold capitalize truncate max-w-[35%] text-right",
             capsule.isAnonymousTarget
               ? (capsule.isLocked ? "text-slate-400 dark:text-slate-500" : "text-blue-300/50")
-              : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-355")
+              : (capsule.isLocked ? "text-[#D4AF37]" : "text-blue-100")
           )}>
             {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
           </span>
@@ -161,8 +160,18 @@ export default function BentoCard({ capsule, onCardClick }: BentoCardProps) {
         {/* Progress Bar & Status */}
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-center mb-1 text-[9px] sm:text-[10px] tracking-tight">
-            <span className={cn("font-mono font-medium truncate", capsule.isLocked ? "text-slate-550 dark:text-slate-400" : "text-blue-200")}>
-              {capsule.isLocked ? `⏳ ${capsule.daysLeft} hari lagi` : "✅ Awakened"}
+            <span className={cn("font-mono font-medium truncate flex items-center gap-1", capsule.isLocked ? "text-slate-550 dark:text-slate-400" : "text-blue-200")}>
+              {capsule.isLocked ? (
+                <>
+                  <Clock className="size-3" />
+                  <span>{capsule.daysLeft} hari lagi</span>
+                </>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-emerald-500 dark:text-emerald-400">
+                  <CheckCircle2 className="size-3" />
+                  <span>Awakened</span>
+                </span>
+              )}
             </span>
             <span className={cn("font-mono font-semibold shrink-0 ml-1", capsule.isLocked ? "text-slate-600 dark:text-slate-355" : "text-blue-100")}>
               {capsule.progressPercent}%
