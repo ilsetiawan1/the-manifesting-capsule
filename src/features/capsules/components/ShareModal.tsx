@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { X, Download, Link as LinkIcon, Lock, Unlock, User, ArrowRight, Sun, Moon } from "lucide-react";
+import { X, Download, Link as LinkIcon, Lock, Unlock, User, ArrowRight, Sun, Moon, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { ClientCapsule } from "@/types";
 import { toast } from "sonner";
@@ -161,19 +161,41 @@ export default function ShareModal({ capsule, onClose }: ShareModalProps) {
                   : "bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950"
               )}
             >
-              {/* Aurora Background Glows (visible only in dark mode or soft in light mode) */}
-              <div className={cn(
-                "absolute top-[-20%] left-[-20%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350",
-                theme === "light" ? "bg-blue-300/10" : "bg-blue-500/10"
-              )} />
-              <div className={cn(
-                "absolute bottom-[-10%] right-[-10%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350",
-                theme === "light" ? "bg-violet-300/10" : "bg-violet-600/10"
-              )} />
-              <div className={cn(
-                "absolute top-[30%] left-[20%] w-[80%] h-[40%] rounded-full blur-[90px] pointer-events-none transition-all duration-350",
-                theme === "light" ? "bg-emerald-300/5" : "bg-emerald-500/5"
-              )} />
+              {/* Photo Background (renders as overlay background if photo exists and unlocked) */}
+              {capsule.photoUrl && !capsule.isLocked && (
+                <div className="absolute inset-0 z-0">
+                  <img
+                    src={capsule.photoUrl}
+                    alt=""
+                    className="w-full h-full object-cover opacity-25"
+                    crossOrigin="anonymous"
+                  />
+                  <div className={cn(
+                    "absolute inset-0",
+                    theme === "light"
+                      ? "bg-gradient-to-b from-white/90 via-white/70 to-white/95"
+                      : "bg-gradient-to-b from-slate-950/90 via-slate-950/70 to-slate-950/95"
+                  )} />
+                </div>
+              )}
+
+              {/* Aurora Background Glows (only visible when there is no background photo) */}
+              {(!capsule.photoUrl || capsule.isLocked) && (
+                <>
+                  <div className={cn(
+                    "absolute top-[-20%] left-[-20%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350",
+                    theme === "light" ? "bg-blue-300/10" : "bg-blue-500/10"
+                  )} />
+                  <div className={cn(
+                    "absolute bottom-[-10%] right-[-10%] w-[100%] h-[60%] rounded-full blur-[80px] pointer-events-none transition-all duration-350",
+                    theme === "light" ? "bg-violet-300/10" : "bg-violet-600/10"
+                  )} />
+                  <div className={cn(
+                    "absolute top-[30%] left-[20%] w-[80%] h-[40%] rounded-full blur-[90px] pointer-events-none transition-all duration-350",
+                    theme === "light" ? "bg-emerald-300/5" : "bg-emerald-500/5"
+                  )} />
+                </>
+              )}
 
               {/* Header: App Watermark Logo (Top) */}
               <div className="flex items-center gap-2.5 z-10">
@@ -205,143 +227,87 @@ export default function ShareModal({ capsule, onClose }: ShareModalProps) {
                 </div>
               </div>
 
-              {/* Middle: Bento Replica Card */}
-              <div className={cn(
-                "w-full rounded-[2.2rem] p-5 shadow-2xl z-10 flex flex-col justify-between h-80 relative overflow-hidden transition-all duration-300",
-                theme === "light"
-                  ? "bg-white text-slate-900 border border-slate-100"
-                  : "bg-white/5 border border-white/10 text-white backdrop-blur-xl"
-              )}>
-                {/* Card Header Vibe */}
-                <div className="flex justify-between items-center mb-4">
-                  <span className={cn(
-                    "px-2.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider transition-colors duration-300",
-                    theme === "light"
-                      ? "bg-slate-100 text-slate-800"
-                      : "bg-white/10 text-white/80"
+              {/* Hero Message Content Panel */}
+              {!capsule.isLocked ? (
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-4 py-8 z-10">
+                  <Sparkles className={cn("size-5 mb-4 opacity-30", theme === "light" ? "text-blue-500" : "text-blue-300")} />
+                  <p className={cn(
+                    "text-base leading-relaxed font-serif italic line-clamp-6 transition-colors duration-300",
+                    theme === "light" ? "text-slate-800" : "text-white"
                   )}>
-                    {capsule.vibe}
-                  </span>
-                  <span className={cn(
-                    "text-[9px] font-medium transition-colors duration-300",
-                    theme === "light" ? "text-slate-500" : "text-white/50"
-                  )}>
-                    {formattedDate}
-                  </span>
+                    "{capsule.messageContent}"
+                  </p>
+                  <Sparkles className={cn("size-5 mt-4 opacity-30", theme === "light" ? "text-blue-500" : "text-blue-300")} />
                 </div>
-
-                {/* Photo representation */}
-                {capsule.photoUrl ? (
-                  <div className={cn(
-                    "w-full h-24 rounded-xl overflow-hidden mb-3 border transition-colors duration-300",
-                    theme === "light" ? "border-slate-100" : "border-white/10"
-                  )}>
-                    <img
-                      src={capsule.photoUrl}
-                      alt="Capsule photo"
-                      className="w-full h-full object-cover"
-                      crossOrigin="anonymous"
-                    />
-                  </div>
-                ) : (
-                  <div className={cn(
-                    "w-full h-20 rounded-xl border flex items-center justify-center mb-3 transition-all duration-300",
-                    theme === "light"
-                      ? "bg-slate-50 border-slate-200/50 text-slate-400"
-                      : "bg-white/5 border-white/5 text-white/30"
-                  )}>
-                    <span className="text-[10px] italic">Terkunci dalam waktu...</span>
-                  </div>
-                )}
-
-                {/* Sender & Receiver Info */}
-                <div className={cn(
-                  "flex flex-row items-center justify-between w-full border-b pb-2 mb-3 text-[10px] transition-colors duration-300",
-                  theme === "light"
-                    ? "border-slate-100 text-slate-600"
-                    : "border-white/10 text-white/70"
-                )}>
-                  <div className="flex items-center gap-1 min-w-0">
-                    <User className={cn("size-3", theme === "light" ? "text-slate-400" : "text-white/40")} />
-                    <span className="truncate">Dari: <span className="font-semibold">{capsule.authorName || "Anonim"}</span></span>
-                  </div>
-                  <div className="flex items-center gap-1 min-w-0">
-                    <span className="truncate">Untuk: <span className="font-semibold">{capsule.targetName}</span></span>
-                    <ArrowRight className={cn("size-3", theme === "light" ? "text-slate-400" : "text-white/40")} />
-                  </div>
-                </div>
-
-                {/* Status Message */}
-                <div className="flex-1 flex flex-col justify-center mb-3">
-                  {capsule.isLocked ? (
-                    <div className={cn(
-                      "flex items-center gap-2 p-2.5 rounded-xl border transition-all duration-300",
-                      theme === "light"
-                        ? "bg-blue-50/50 border-blue-100/50 text-blue-800"
-                        : "bg-white/5 border-white/5 text-blue-200"
-                    )}>
-                      <Lock
-                        className={cn("size-4 shrink-0 transition-colors duration-300", theme === "light" ? "text-blue-600" : "text-blue-300")}
-                        strokeWidth={2.5}
-                      />
-                      <span className="text-[9px] leading-tight">
-                        Kapsul ini tersegel dan baru dapat dibuka dalam {capsule.daysLeft} hari lagi.
-                      </span>
-                    </div>
-                  ) : (
-                    <div className={cn(
-                      "flex items-center gap-2 p-2.5 rounded-xl border transition-all duration-300",
-                      theme === "light"
-                        ? "bg-emerald-50/50 border-emerald-100/50 text-emerald-800"
-                        : "bg-emerald-500/10 border-emerald-500/20 text-emerald-250"
-                    )}>
-                      <Unlock
-                        className={cn("size-4 shrink-0 transition-colors duration-300", theme === "light" ? "text-emerald-600" : "text-emerald-350")}
-                        strokeWidth={2.5}
-                      />
-                      <span className="text-[9px] leading-tight">
-                        Kapsul manifestasi ini telah terbuka sepenuhnya!
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Time progress bar */}
-                <div className="space-y-1">
-                  <div className={cn(
-                    "flex justify-between items-center text-[8px] transition-colors duration-300",
+              ) : (
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-8 z-10">
+                  <Lock className={cn("size-6 mb-4 opacity-40", theme === "light" ? "text-slate-500" : "text-white/40")} />
+                  <p className={cn(
+                    "text-sm italic transition-colors duration-300",
                     theme === "light" ? "text-slate-500" : "text-white/60"
                   )}>
-                    <span>Progress Kematangan:</span>
-                    <span className="font-mono">{capsule.progressPercent}%</span>
-                  </div>
-                  <div className={cn(
-                    "w-full h-1 rounded-full overflow-hidden transition-colors duration-300",
-                    theme === "light" ? "bg-slate-100" : "bg-white/10"
-                  )}>
-                    <div
-                      className={cn(
-                        "h-full rounded-full transition-colors duration-300",
-                        theme === "light" ? "bg-blue-600" : "bg-blue-400"
-                      )}
-                      style={{ width: `${capsule.progressPercent}%` }}
-                    />
+                    Sebuah manifestasi sedang tersegel...
+                  </p>
+                  {/* Visual Teaser Placeholder Lines */}
+                  <div className="mt-4 space-y-2.5 w-full px-6">
+                    <div className={cn("h-1.5 rounded-full mx-auto w-[85%]", theme === "light" ? "bg-slate-200" : "bg-white/10")} />
+                    <div className={cn("h-1.5 rounded-full mx-auto w-[70%]", theme === "light" ? "bg-slate-200" : "bg-white/10")} />
+                    <div className={cn("h-1.5 rounded-full mx-auto w-[55%]", theme === "light" ? "bg-slate-200" : "bg-white/10")} />
                   </div>
                 </div>
+              )}
+
+              {/* Sender & Receiver Info */}
+              <div className="text-center mb-1 z-10">
+                <p className={cn(
+                  "text-base font-black tracking-tight transition-colors duration-300",
+                  theme === "light" ? "text-slate-900" : "text-white"
+                )}>
+                  Untuk {capsule.isAnonymousTarget ? "Anonim" : capsule.targetName}
+                </p>
+                <p className={cn(
+                  "text-[11px] font-medium mt-0.5 transition-colors duration-300",
+                  theme === "light" ? "text-slate-400" : "text-white/40"
+                )}>
+                  dari {capsule.authorName || "Anonim"}
+                </p>
+              </div>
+
+              {/* Status Info */}
+              <div className="flex items-center justify-center gap-1.5 mb-4 z-10">
+                {capsule.isLocked ? (
+                  <>
+                    <Lock className={cn("size-3", theme === "light" ? "text-slate-400" : "text-white/40")} />
+                    <span className={cn("text-[10px] font-semibold", theme === "light" ? "text-slate-400" : "text-white/40")}>
+                      Terbuka dalam {capsule.daysLeft} hari
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Unlock className={cn("size-3", theme === "light" ? "text-emerald-600" : "text-emerald-400")} />
+                    <span className={cn("text-[10px] font-semibold", theme === "light" ? "text-emerald-600" : "text-emerald-400")}>
+                      Terbuka sepenuhnya
+                    </span>
+                  </>
+                )}
               </div>
 
               {/* Bottom Watermark & Call To Action */}
-              <div className="flex flex-col items-center gap-1 z-10">
+              <div className="flex flex-col items-center gap-1.5 z-10 pb-1">
+                <div className={cn(
+                  "w-8 h-[1px] mb-1",
+                  theme === "light" ? "bg-slate-300" : "bg-white/20"
+                )} />
                 <span className={cn(
-                  "text-[9px] tracking-wider font-semibold transition-colors duration-300",
-                  theme === "light" ? "text-slate-400" : "text-white/40"
+                  "text-[10px] font-medium transition-colors duration-300",
+                  theme === "light" ? "text-slate-500" : "text-white/50"
                 )}>
-                  Kunci manifestasimu sendiri di:
+                  Apa manifestasimu?
                 </span>
                 <span className={cn(
-                  "text-xs font-bold px-4 py-1.5 rounded-full tracking-wide transition-all duration-300 border",
+                  "text-[11px] font-bold px-4 py-1.5 rounded-full tracking-wide transition-all duration-300 border",
                   theme === "light"
-                    ? "text-slate-800 bg-slate-100 border-slate-200 shadow-sm"
+                    ? "text-slate-800 bg-slate-100 border-slate-200"
                     : "text-white/90 bg-white/5 border-white/10"
                 )}>
                   the-manifesting-capsule.vercel.app
