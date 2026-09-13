@@ -2,156 +2,16 @@
 	"info": {
 		"_postman_id": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
 		"name": "The Manifesting Capsule API",
-		"description": "Koleksi API Postman resmi untuk The Manifesting Capsule — Digital Time-Capsule Web Application dengan Time-Lock Cryptic Censorship, NanoID Anonymous Access Key, dan Social Resonance Feed.",
+		"description": "Koleksi REST API resmi The Manifesting Capsule — Digital Time-Capsule Web Application.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Capsules",
-			"description": "Kumpulan endpoint untuk manajemen penanaman kapsul waktu, feed publik, inspeksi time-lock, dan resonansi publik.",
+			"name": "Auth",
+			"description": "Manajemen identitas anonim dan sesi berbasis Access Key (NanoID) & HttpOnly Cookie.",
 			"item": [
 				{
-					"name": "Get Public Capsules (Explore Feed)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/capsules?page=1&limit=6",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"capsules"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1",
-									"description": "Nomor halaman (default: 1)"
-								},
-								{
-									"key": "limit",
-									"value": "6",
-									"description": "Jumlah item per halaman (default: 6)"
-								}
-							]
-						},
-						"description": "Mengambil daftar kapsul publik secara terpaginasi untuk ditampilkan di Explore Feed. Konten pesan yang belum mencapai unlockAt otomatis disensor dari level server."
-					},
-					"response": []
-				},
-				{
-					"name": "Drop Capsule (Create New)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"targetName\": \"Ilham 2027\",\n  \"messageContent\": \"Semoga sudah bekerja sebagai Senior Software Engineer & Technical Architect di Jakarta!\",\n  \"unlockAt\": \"2027-01-01T00:00:00.000Z\",\n  \"authorName\": \"Ilham Masa Lalu\",\n  \"isPrivate\": false,\n  \"isAnonymousTarget\": false,\n  \"vibe\": \"future\",\n  \"ifAchieved\": \"Traktir orang tua umroh dan liburan bareng keluarga.\",\n  \"ifNotAchieved\": \"Evaluasi kekurangan, bangkit lagi, dan jangan pernah menyerah.\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/capsules",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"capsules"
-							]
-						},
-						"description": "Menanam kapsul waktu baru. Jika user belum memiliki cookie manifesting_access_key, server otomatis men-generate NanoID 10-karakter unik (format: XXXX-000-XXX)."
-					},
-					"response": []
-				},
-				{
-					"name": "Get My Capsules (History Vault)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/capsules/my-history",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"capsules",
-								"my-history"
-							]
-						},
-						"description": "Mengambil seluruh riwayat kapsul pribadi milik pengguna yang teridentifikasi lewat cookie HTTP-only manifesting_access_key."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Capsule by ID (Inspection & Unlock)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/capsules/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"capsules",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "clw1234567890",
-									"description": "ID unik CUID kapsul"
-								}
-							]
-						},
-						"description": "Mengambil detail satu kapsul. Jika waktu sekarang < unlockAt, pesan disensor dengan Zero-Leakage server logic. Jika waktu sekarang >= unlockAt, seluruh konten asli dan komitmen dikirim utuh."
-					},
-					"response": []
-				},
-				{
-					"name": "Resonate Capsule (Social Resonance)",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/capsules/:id/resonate",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"capsules",
-								":id",
-								"resonate"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "clw1234567890",
-									"description": "ID unik CUID kapsul yang diresonansi"
-								}
-							]
-						},
-						"description": "Menambahkan angka resonansi/apresiasi pada kapsul secara anonim. Dibatasi oleh in-memory rate limiter maksimal 10 permintaan per menit per IP."
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Auth & Session",
-			"description": "Endpoint pengelolaan identitas anonim (Access Key) dan sesi berbasis cookie.",
-			"item": [
-				{
-					"name": "Get Active Session (Me)",
+					"name": "Get Active Session",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -171,7 +31,7 @@
 					"response": []
 				},
 				{
-					"name": "Sync Access Key (Login / Restore)",
+					"name": "Sync Access Key",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -195,12 +55,12 @@
 								"sync"
 							]
 						},
-						"description": "Menyinkronkan Access Key NanoID untuk memulihkan brankas kapsul di perangkat/browser baru dan menetapkannya ke cookie HTTP-only."
+						"description": "Menyinkronkan Access Key untuk memulihkan brankas kapsul di perangkat/browser baru."
 					},
 					"response": []
 				},
 				{
-					"name": "Logout (Clear Session Cookie)",
+					"name": "Logout",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -215,9 +75,161 @@
 								"logout"
 							]
 						},
-						"description": "Menghapus cookie manifesting_access_key dari browser untuk keluar dari sesi akun aktif."
+						"description": "Menghapus cookie manifesting_access_key untuk mengakhiri sesi aktif."
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Capsules",
+			"description": "Endpoint pengelolaan data kapsul waktu digital, feed eksplorasi publik, dan brankas pribadi.",
+			"item": [
+				{
+					"name": "Public Capsules",
+					"description": "Kumpulan endpoint eksplorasi feed publik dan resonansi sosial.",
+					"item": [
+						{
+							"name": "Get All Capsules",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/capsules?page=1&limit=6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"capsules"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Nomor halaman (default: 1)"
+										},
+										{
+											"key": "limit",
+											"value": "6",
+											"description": "Jumlah item per halaman (default: 6)"
+										}
+									]
+								},
+								"description": "Mengambil daftar kapsul publik secara terpaginasi dengan penyensoran otomatis di level server."
+							},
+							"response": []
+						},
+						{
+							"name": "Resonate Capsule",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/capsules/:id/resonate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"capsules",
+										":id",
+										"resonate"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "46ce212a-7a31-413a-adc5-c37fe60d314d",
+											"description": "ID unik kapsul"
+										}
+									]
+								},
+								"description": "Menambahkan angka resonansi/apresiasi pada kapsul secara anonim (Rate limited 10x/menit)."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Personal Capsules",
+					"description": "Kumpulan endpoint penanaman dan inspeksi brankas kapsul milik pengguna.",
+					"item": [
+						{
+							"name": "Get My Capsules",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/capsules/my-history",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"capsules",
+										"my-history"
+									]
+								},
+								"description": "Mengambil seluruh riwayat kapsul milik pengguna berdasarkan cookie manifesting_access_key."
+							},
+							"response": []
+						},
+						{
+							"name": "Create Capsule",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"targetName\": \"Ilham 2027\",\n  \"messageContent\": \"Semoga sudah bekerja sebagai Senior Software Engineer & Technical Architect di Jakarta!\",\n  \"unlockAt\": \"2027-01-01T00:00:00.000Z\",\n  \"authorName\": \"Ilham Masa Lalu\",\n  \"isPrivate\": false,\n  \"isAnonymousTarget\": false,\n  \"vibe\": \"Career & Study\",\n  \"ifAchieved\": \"Traktir orang tua umroh dan liburan bareng keluarga.\",\n  \"ifNotAchieved\": \"Evaluasi kekurangan, bangkit lagi, dan jangan pernah menyerah.\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/capsules",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"capsules"
+									]
+								},
+								"description": "Menanam kapsul waktu baru. Server otomatis membuatkan Access Key jika belum ada di cookie."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Capsule by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/capsules/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"capsules",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "46ce212a-7a31-413a-adc5-c37fe60d314d",
+											"description": "ID unik kapsul"
+										}
+									]
+								},
+								"description": "Mengambil detail satu kapsul. Konten pesan disensor jika belum unlockAt dan terbuka utuh jika sudah unlockAt."
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -225,7 +237,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:3000",
+			"value": "https://my-manifesting-capsule.vercel.app",
 			"type": "string"
 		}
 	]
