@@ -42,7 +42,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"accessKey\": \"A8K9-301-X9L\"\n}"
+							"raw": "{\n  \"accessKey\": \"JDXV-927-WVQ\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/auth/sync",
