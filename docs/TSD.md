@@ -349,15 +349,34 @@ type ServerActionResponse<T> = {
 
 | Tipe Error | Kode Status / Respon | Contoh Kasus |
 | :--- | :--- | :--- |
-| **Validation Error** | `{ success: false, error: "..." }` | Tanggal gembok di masa lalu atau nama target kosong |
-| **Rate Limit Exceeded** | `{ success: false, error: "Terlalu banyak permintaan..." }` | Melakukan spam pembuatan kapsul $> 5$ kali/menit |
-| **Data Not Found** | `{ success: false, error: "Kapsul tidak ditemukan..." }` | ID Kapsul tidak terdaftar di database |
-| **Server Failure** | `{ success: false, error: "Gagal memproses data..." }` | Database connection timeout atau Vercel Blob error |
+| **Validation Error** | `{ success: false, error: "..." }` / `400 Bad Request` | Tanggal gembok di masa lalu atau nama target kosong |
+| **Rate Limit Exceeded** | `{ success: false, error: "Terlalu banyak permintaan..." }` / `429 Too Many Requests` | Melakukan spam pembuatan kapsul $> 5$ kali/menit |
+| **Data Not Found** | `{ success: false, error: "Kapsul tidak ditemukan..." }` / `404 Not Found` | ID Kapsul tidak terdaftar di database |
+| **Server Failure** | `{ success: false, error: "Gagal memproses data..." }` / `500 Internal Error` | Database connection timeout atau Vercel Blob error |
+
+---
+
+### 7.3 REST API Endpoints & Postman Collection
+
+Selain Next.js Server Actions, sistem menyediakan endpoint REST API standar lengkap dengan berkas koleksi Postman yang dapat diimpor langsung:
+
+* **File Postman Collection:** [`docs/The Manifesting Capsule.postman_collection.json`](file:///e:/project-nextjs/the-manifesting-capsule/docs/The%20Manifesting%20Capsule.postman_collection.json)
+
+| HTTP Method | Route Endpoint | Keterangan | Autentikasi |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/capsules?page=1&limit=6` | Mengambil feed kapsul publik berpaginasi | Terbuka (Public) |
+| `POST` | `/api/capsules` | Menanam kapsul waktu baru | Anonymous Key / Cookie |
+| `GET` | `/api/capsules/my-history` | Mengambil riwayat kapsul milik pengguna | Cookie `manifesting_access_key` |
+| `GET` | `/api/capsules/:id` | Inspeksi status gembok & konten kapsul | Terbuka (Server Censorship) |
+| `POST` | `/api/capsules/:id/resonate` | Memberikan resonansi apresiasi pada kapsul | Terbuka (Rate limited 10x/min) |
+| `GET` | `/api/auth/sync` | Memeriksa status sesi & kunci aktif | Cookie `manifesting_access_key` |
+| `POST` | `/api/auth/sync` | Sinkronisasi / Restore akun via Access Key | Request Body JSON |
+| `POST` | `/api/auth/logout` | Menghapus cookie sesi pengguna | Terbuka |
 
 ---
 
 ## 8. Keamanan, Rate Limiting & Tata Kelola Dokumen
 
 * **HttpOnly Cookie Security:** Kunci akses disimpan pada cookie dengan atribut `HttpOnly`, `SameSite: Lax`, dan `Secure: true` (di production) untuk mencegah eksploitasi serangan XSS.
-* **In-Memory IP Rate Limiting:** Melindungi Server Actions dari serangan *Denial of Service (DoS)* dan bot *spamming*.
-* **Dokumentasi Terintegrasi di Repositori:** Dokumen PRD dan TSD dikelola langsung di dalam repositori Git menggunakan Markdown untuk menjamin ketertelusuran arsitektur sistem.
+* **In-Memory IP Rate Limiting:** Melindungi Server Actions & REST API dari serangan *Denial of Service (DoS)* dan bot *spamming*.
+* **Dokumentasi Terintegrasi di Repositori:** Dokumen PRD, TSD, dan Postman Collection dikelola langsung di dalam repositori Git menggunakan format standar untuk menjamin ketertelusuran arsitektur sistem.
